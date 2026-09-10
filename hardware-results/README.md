@@ -1,6 +1,6 @@
 # Physical laptop results
 
-**Phase 1 full diagnostic log reviewed: target and permission checks passed.** See [the reviewed report](phase-1-diagnostic-reviewed.md). Physical patching, automatic timing, warning suppression, and USB behavior remain untested.
+**Phases 1 and 2 passed.** See the [diagnostic report](phase-1-diagnostic-reviewed.md) and [manual patch report](phase-2-manual-reviewed.md). Physical byte change/readback is verified. Automatic timing, warning suppression, and USB behavior remain untested.
 
 Use the GitHub hardware-result issue template or copy this record into a new dated Markdown file after observations are available:
 
