@@ -1,7 +1,9 @@
 # Test DriverOrder timing, warning suppression, and USB behavior
 
-Depends on a reviewed successful manual stage.
+**Completed milestone — September 10, 2026.** Two reviewed automatic USB logs found the warning trigger absent at entry and before the patch, then recorded a verified one-byte RAM change without permission transitions.
 
-Use the existing USB-hosted driver and exact-entry installation/removal instructions. Record trigger state at driver entry and before patch, actual automatic result, normal-charger behavior, and the planned USB-C comparison from the walkthrough. Check USB keyboard/storage and other attached peripherals because the skipped callback also contains a controller-connection call.
+The owner reported warning absent / present / absent with the helper USB inserted / removed / reinserted under the same USB-C setup. This comparison demonstrates suppression in the tested configuration. The later internal migration showed the USB TEST entry removed and one INTERNAL entry present. Normal internal startup, mouse operation, and thumb-drive operation were subsequently reported.
 
-Completion: actual automatic logs and observed warning behavior, plus a comparison after removing the identified driver entry. Verify removal using the current displayed option number and exact entry description. Do not remove unrelated entries. Marker absence alone does not establish successful suppression. Do not treat an F12 diagnostic as this timing test.
+See [the hardware index](../../hardware-results/README.md) for separate log reviews, owner reports, and internal setup observations. The warning comparison used removal of the helper USB; do not describe it as a separate warning comparison after deleting the saved driver entry.
+
+Dock behavior, broad USB-controller compatibility, permission transitions, long-term behavior, and complete physical internal recovery remain untested. Results apply only to the tested Legion 5 Pro 16ACH6H / 82JQ on GKCN65WW. Secure Boot trust work continues in [issue #5](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/5).

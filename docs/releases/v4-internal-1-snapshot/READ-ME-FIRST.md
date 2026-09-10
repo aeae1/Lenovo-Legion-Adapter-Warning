@@ -2,7 +2,7 @@
 
 **After this installation succeeds, normal startup will not need the USB stick.** You use the USB once for setup, then keep it somewhere as a recovery tool.
 
-This guide is for the Lenovo Legion 5 Pro 16ACH6H / 82JQ with **GKCN65WW**, after the V4 automatic USB experiment has already worked. It uses the exact same helper. Internal-drive startup without the helper USB has now been reported working on the tested laptop, with mouse and thumb-drive operation also reported. See the [reviewed result](../../hardware-results/phase-4-internal-and-usb-reviewed.md). The complete physical recovery procedure remains untested.
+This guide is for the Lenovo Legion 5 Pro 16ACH6H / 82JQ with **GKCN65WW**, after the V4 automatic USB experiment has already worked. It uses the exact same helper. Internal-drive startup is a new deployment location and still needs its first physical confirmation; the completed USB comparison already established warning suppression.
 
 ## What you are doing
 

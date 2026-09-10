@@ -1,40 +1,76 @@
 # Lenovo Legion Adapter Warning
 
-**Experimental UEFI research · GKCN65WW only · Warning suppression demonstrated on the tested laptop**
+![Lenovo Legion Adapter Warning — terminal graphic showing the full low-wattage AC adapter startup message](docs/images/terminal-warning-banner.png)
 
-A narrowly targeted attempt to suppress the startup adapter warning on the **Lenovo Legion 5 Pro 16ACH6H / 82JQ**. No simple warning-off NVRAM setting has been established.
+**USB-free startup demonstrated · Legion 5 Pro 16ACH6H / 82JQ · GKCN65WW only · Experimental community project**
 
-V4 provides a diagnostic and two helpers that attempt a one-byte change to the loaded warning callback **in RAM for the current boot**. It does not flash the BIOS, approve a charger, increase USB-C power, or change charging limits. The helpers are unsigned.
+Suppresses this Lenovo startup message, including the **Press Esc to continue** interruption:
+
+> The connected AC adapter has a lower wattage than the recommended AC adapter which was shipped with the system. To use AC power, please connect the AC adapter which was shipped with the system. Press Esc to continue.
+
+The owner supplied this exact wording. It also matches the English warning strings in the reviewed GKCN65WW firmware module, with line breaks normalized. If you searched for a **Lenovo Legion USB-C charger warning**, **lower wattage AC adapter warning**, or **Press Esc to continue at startup**, this is the issue being investigated here.
+
+## What works today
+
+On the tested **Lenovo Legion 5 Pro 16ACH6H / 82JQ with BIOS GKCN65WW**, V4 suppressed the warning during USB-C-powered startup. Moving the helper to the internal SSD then allowed normal startup **without a thumb drive and without F12**. The owner also reported a working mouse and thumb drive. See the [reviewed hardware results](hardware-results/README.md).
+
+The helper runs automatically before Windows and changes one byte in the loaded warning routine **in RAM each boot**. The BIOS chip stays unchanged. This does not increase USB-C wattage, change charger compatibility, or remove charging/performance limits. No simple warning-off NVRAM preference has been established.
+
+**Secure Boot is currently disabled for the working installation.** Signing and virtual-machine enforcement tests now pass, but trust enrollment and operation with Secure Boot enabled on this Lenovo remain unverified. Follow the [signing project](signing/README.md); a self-created signature is not automatically trusted.
+
+| Evidence | Result |
+| --- | --- |
+| Physical diagnostic | Intended module matched; target page already writable |
+| Physical manual test | One-byte RAM change verified; no permission change needed |
+| Automatic USB driver logs | Timing marker absent before patch; patch verified |
+| Same USB-C setup, helper USB inserted / removed / reinserted | Warning absent / present / absent |
+| Internal SSD deployment | Copy comparison and internal saved entry reviewed; normal startup without helper USB reported |
+| Peripherals after internal startup | Mouse and thumb drive reported working |
+| Secure Boot signing | Offline signature and OVMF admission tests pass; Lenovo enrollment still open |
+
+These are results from one machine and firmware version. Dock behavior, other models/BIOS versions, long-term reliability, and physical internal recovery tests are not established. No full internal-run log has been supplied; the internal result is based on setup screenshots and the owner's startup report.
 
 ## Start here
 
-Download the [V4 public USB test prerelease](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/tag/v4-public-1), then follow the [beginner walkthrough](docs/BEGINNER-WALKTHROUGH.md). It explains what happens, how to prepare the USB, Secure Boot, risk, and removal. The [short Phase 1 guide](START-HERE.md) is also available.
+**New to the project:** download the [V4 USB test prerelease](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/tag/v4-public-1) and follow the [beginner walkthrough](docs/BEGINNER-WALKTHROUGH.md). Start with the diagnostic, review its result, then progress through the manual and automatic tests. Phase 1 alone cannot establish early automatic timing.
 
-| Phase | What it establishes |
-| --- | --- |
-| **1 — Diagnostic** | Whether the loaded firmware matches and what its current permissions are. Writes a USB log; does not patch firmware or edit NVRAM. |
-| **2 — Manual RAM test** | Whether the one-byte change and any required permission restoration work. Requires review of Phase 1. |
-| **3 — Automatic USB test** | Whether DriverOrder starts the helper early enough, the warning disappears, and normal USB behavior remains intact. Requires a successful reviewed manual test. |
+**Already completed the successful automatic USB test:** use the [internal deployment prerelease](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/tag/v4-internal-1) and [current internal installation guide](deployment/internal-1/READ-ME-FIRST.md). The USB is used for installation and kept for recovery; it need not stay plugged in afterward. Identify your actual EFI volumes rather than assuming an FS number.
 
-Use the normal Lenovo charger for the initial stages, or a sufficiently charged battery alone for the manual mechanics test; see [current test guidance](docs/STATUS.md). Review results before progressing. **Phase 1 does not establish automatic-driver timing, and a successful build does not establish a working laptop fix.** Review logs and photos for personal information before sharing them.
+**Already running internally:** no reinstall or replacement helper is needed for this documentation/signing update. The [next Secure Boot step](signing/README.md#next-step-on-the-laptop-read-only-inventory) is an optional Windows inventory that reads settings and saves local files. It does not enroll a key or change the working driver.
 
-The public download contains the **same V4 EFI helper bytes** as the original test package. Its filename and ZIP checksum differ because firmware test data and personal context were removed. No replacement of an existing Phase 1 USB is necessary. See [public packaging](docs/PUBLIC-PACKAGE.md).
+Use the normal Lenovo charger or a sufficiently charged battery for the initial mechanics stages. Use the USB-C setup that originally produced the warning for the actual suppression check. Keep any encryption recovery key private and available before boot-configuration changes.
 
-## Use it without leaving a USB plugged in
+## How it works
 
-After the automatic USB experiment succeeds, [internal deployment revision 1](deployment/internal-1/READ-ME-FIRST.md) moves the same helper to a dedicated internal EFI folder and replaces the project's USB driver entry. The setup USB is then kept only for recovery. The scripts have an isolated Shell validation path; physical internal startup still needs confirmation. This remains a per-boot RAM patch with an unsigned helper, not a BIOS flash. [Secure Boot options](docs/SECURE-BOOT-OPTIONS.md) are tracked separately.
+```mermaid
+flowchart TD
+    A["UEFI DriverOrder loads internal helper"] --> B{"Expected module, writable memory, and early timing?"}
+    B -->|Yes| C["Verify one-byte callback change in RAM"]
+    B -->|No| D["Refuse the patch"]
+    C --> E["Continue startup with callback suppressed"]
+    D --> F["Continue with stock warning behavior"]
+```
+
+This diagram shows the ordinary success/refusal paths; detailed errors and rollback checks are in the source. The saved DriverOrder entry contains the helper's file location. The warning patch itself is temporary RAM state, recreated at each startup. Details: [firmware reassessment](docs/FIRMWARE-REASSESSMENT.md).
+
+## Risk and removal
+
+Avoiding a BIOS flash removes that particular flash-bricking hazard, but pre-Windows code can still hang startup. An incorrect EFI filesystem edit can also disrupt boot. No meaningful numeric risk estimate exists. The [installation guide](deployment/internal-1/READ-ME-FIRST.md#risk-in-plain-language) explains the risks and the limits of the recovery paths.
+
+For an internal installation, removing the USB **does not disable the helper**. Follow [disable/removal instructions](deployment/internal-1/READ-ME-FIRST.md#disable-or-remove-the-internal-setup) to rename the dedicated helper or remove its exact saved driver entry. Do not delete Windows' EFI folders. BIOS updates or firmware resets may bring the original warning back.
 
 ## Research and progress
 
 | Record | Contents |
 | --- | --- |
-| [Current status](docs/STATUS.md) | Evidence, open questions, and physical-test status |
-| [Tracking issues](planning/README.md) | Diagnostic, manual, automatic, Secure Boot, and deployment work |
-| [Firmware reassessment](docs/FIRMWARE-REASSESSMENT.md) | Warning path, NVRAM candidates, and static boot ordering |
-| [Comparison with V3](docs/COMPARISON-WITH-V3.md) | Earlier behavior and V4 corrections |
-| [Older CPU protocol](docs/research/REVIEW-AND-CPU-PROTOCOL.md) | A possible permission-control route; not implemented or proven |
-| [Validation](docs/VALIDATION.md) | Historical host/emulator results and their limits |
-| [Hardware reports](hardware-results/README.md) | A template for recording actual observations |
+| [Current status](docs/STATUS.md) | Observed results and remaining questions |
+| [Tracking issues](planning/README.md) | Completed stages and current Secure Boot work |
+| [Signing project](signing/README.md) | Offline signer, disposable-key tests, Windows inventory |
+| [Secure Boot options](docs/SECURE-BOOT-OPTIONS.md) | Trust databases, actual Lenovo menu observations, unresolved enrollment |
+| [Hardware reports](hardware-results/README.md) | Reviewed physical evidence and its limits |
+| [V3 comparison](docs/COMPARISON-WITH-V3.md) | Earlier behavior and V4 corrections |
+| [Validation](docs/VALIDATION.md) | Original host/emulator checks; separate from physical evidence |
+| [Publication review](docs/PUBLICATION-REVIEW.md) | Public-data scope and firmware fixture |
 
 ## Build and check
 
@@ -47,6 +83,6 @@ python3 -m pip install -r requirements-build.txt
 bash scripts/check.sh
 ```
 
-Public checks verify the package, rebuild all three helpers, require byte-identical V4 hashes, and run **33 host fault-injection cases** with address and undefined-behavior sanitizers. A reviewed 23,360-byte warning module is included as inert test data; its code is never executed by the tests. It is excluded from the USB download. See [source/README.md](source/README.md). Historical emulator results remain documented separately.
+These checks rebuild all three helpers, require byte-identical frozen V4 hashes, validate published archives, and run **33 sanitized host fault-injection cases**. The reviewed 23,360-byte firmware module is inert test data; its code is not executed by these host tests and it is excluded from the USB download. [Signing checks](signing/README.md#developer-validation) are separate and never change the released helpers.
 
-No complete BIOS image, personal hardware log, or private development history is published. The single reviewed firmware test module, compatibility signatures, and research offsets identify the supported firmware. The [publication review](docs/PUBLICATION-REVIEW.md) records the scope. See [contribution guidance](CONTRIBUTING.md) and [third-party notices](THIRD-PARTY.md).
+Published release ZIPs and V4 binaries retain their original bytes and checksums. Historical text inside an older ZIP reflects its publication checkpoint; this README and [status page](docs/STATUS.md) carry current results. No complete BIOS dump, raw personal log, recovery key, or private signing key is published. See [contribution guidance](CONTRIBUTING.md), [source notes](source/README.md), and [third-party notices](THIRD-PARTY.md).

@@ -1,5 +1,7 @@
 # Helper USB removal/reinsertion comparison — reported September 10, 2026
 
+> Historical checkpoint: later internal-drive startup and mouse/storage observations are recorded in [current status](../docs/STATUS.md). Pending-work statements below describe the evidence available when this report was first written.
+
 **Outcome: helper-dependent warning suppression demonstrated in the reported comparison.**
 
 After the first warning-free normal boot, the user followed up with two shutdown/start observations:

@@ -1,0 +1,42 @@
+name: Verify signing research and read-only inventory
+on:
+  push:
+    paths:
+      - signing/**
+      - .github/workflows/signing-research.yml
+  pull_request:
+    paths:
+      - signing/**
+      - .github/workflows/signing-research.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  signing:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Install offline signing tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq sbsigntool qemu-system-x86 ovmf mtools dosfstools
+          python3 -m venv .venv
+          .venv/bin/python -m pip install pefile==2024.8.26 ziglang==0.13.0 virt-firmware==26.9
+          mkdir -p build
+      - name: Verify signatures and unchanged payload using disposable keys
+        run: .venv/bin/python signing/check-signing.py
+      - name: Verify trusted and rejected driver copies with Secure Boot in OVMF
+        run: .venv/bin/python signing/check-uefi-load.py
+  inventory:
+    runs-on: windows-2022
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Check Windows PowerShell 5.1 inventory with mocked firmware queries
+        shell: powershell
+        run: .\signing\check-inventory.ps1

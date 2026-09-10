@@ -1,5 +1,7 @@
 # Lenovo Legion USB-C adapter warning: firmware reassessment
 
+> Historical checkpoint: later internal-drive startup and mouse/storage observations are recorded in [current status](STATUS.md). Pending-work statements below describe the evidence available when this report was first written.
+
 **Date:** September 10, 2026  
 **Target:** Lenovo Legion 5 Pro 16ACH6H / 82JQ, GKCN65WW  
 **Method:** Static extraction, x86-64 disassembly, and UEFI HII/IFR decoding of the analyzed firmware. No laptop execution or firmware modification.

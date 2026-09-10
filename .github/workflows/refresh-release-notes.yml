@@ -1,0 +1,36 @@
+name: Refresh published release notes without changing assets
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - docs/releases/v4-public-1.md
+      - docs/releases/v4-internal-1.md
+      - .github/workflows/refresh-release-notes.yml
+permissions:
+  contents: read
+jobs:
+  verify:
+    uses: ./.github/workflows/check.yml
+  notes:
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Update only the two existing release descriptions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GH_REPO" = aeae1/Lenovo-Legion-Adapter-Warning
+          gh release view v4-public-1 >/dev/null
+          gh release view v4-internal-1 >/dev/null
+          gh release edit v4-public-1 --notes-file docs/releases/v4-public-1.md
+          gh release edit v4-internal-1 --notes-file docs/releases/v4-internal-1.md

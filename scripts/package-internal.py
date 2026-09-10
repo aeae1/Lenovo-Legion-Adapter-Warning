@@ -8,8 +8,8 @@ root = Path(__file__).resolve().parents[1]
 name = 'Lenovo-GKCN65WW-V4-Internal-Deployment-1'
 archive = root / 'release-assets' / (name + '.zip')
 selected = {
-    'READ-ME-FIRST.md': 'deployment/internal-1/READ-ME-FIRST.md',
-    'SECURE-BOOT-OPTIONS.md': 'docs/SECURE-BOOT-OPTIONS.md',
+    'READ-ME-FIRST.md': 'docs/releases/v4-internal-1-snapshot/READ-ME-FIRST.md',
+    'SECURE-BOOT-OPTIONS.md': 'docs/releases/v4-internal-1-snapshot/SECURE-BOOT-OPTIONS.md',
     'USB/stage-internal.nsh': 'deployment/internal-1/stage-internal.nsh',
     'USB/disable-internal.nsh': 'deployment/internal-1/disable-internal.nsh',
     'USB/LenovoWarning-v4-Driver.efi': 'source/LenovoWarning-v4-Driver.efi',

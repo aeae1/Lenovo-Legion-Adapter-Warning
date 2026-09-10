@@ -1,5 +1,7 @@
 # First warning-free normal boot — reported September 10, 2026
 
+> Historical checkpoint: later internal-drive startup and mouse/storage observations are recorded in [current status](../docs/STATUS.md). Pending-work statements below describe the evidence available when this report was first written.
+
 The user reported that the adapter warning did not appear, the helper USB remained connected, and F12 was not used. This report followed the instructions to test with the USB-C charger/cable that normally produces the warning.
 
 This is the first direct report of the desired visible behavior. The previously supplied automatic log separately establishes an absent trigger at both samples and a verified RAM patch. The fresh log from this subsequent warning-free run has not yet been supplied; the two observations must not be represented as one log record.

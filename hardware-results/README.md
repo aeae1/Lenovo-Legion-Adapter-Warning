@@ -1,27 +1,17 @@
 # Physical laptop results
 
-**Diagnostic, manual, and first automatic runs reviewed.** See the [diagnostic report](phase-1-diagnostic-reviewed.md), [manual report](phase-2-manual-reviewed.md), and [initial automatic report](phase-3-automatic-initial-reviewed.md). The automatic helper found the trigger absent and verified its RAM patch. A [subsequent warning-free normal boot](phase-3-warning-free-reported.md) was reported with the helper USB connected and no F12. The [with/without/with comparison](phase-3-usb-comparison-reported.md) then reproduced warning-free / warning / warning-free behavior. Fresh run logs and USB peripheral checks remain pending.
+**The internal installation now starts normally without the helper USB; the owner also reported working mouse and thumb-drive operation.** These are single-machine observations with Secure Boot disabled.
 
-Use the GitHub hardware-result issue template or copy this record into a new dated Markdown file after observations are available:
+| Record | What it establishes |
+| --- | --- |
+| [Phase 1 diagnostic](phase-1-diagnostic-reviewed.md) | Module identity and current writable mapping |
+| [Phase 2 manual](phase-2-manual-reviewed.md) | Verified one-byte RAM change |
+| [First automatic log](phase-3-automatic-initial-reviewed.md) | Early timing marker absence and verified automatic patch |
+| [Normal USB startup](phase-3-warning-free-reported.md) | Warning-free normal startup without F12 reported |
+| [USB comparison](phase-3-usb-comparison-reported.md) | Warning absent/present/absent with/without/with helper USB |
+| [Internal deployment and peripherals](phase-4-internal-and-usb-reviewed.md) | Internal copy/entry reviewed; normal USB-free startup and mouse/storage reported |
+| [Secure Boot menu](secure-boot-menu-reviewed.md) | Current disabled/User Mode/Standard state and visible reset actions |
 
-```text
-Date:
-Model and BIOS version:
-Phase (1 diagnostic / 2 manual / 3 automatic / removal comparison):
-Package or binary SHA-256:
-Charger and attached peripherals:
-Secure Boot state:
-How started (F12 / manual application / DriverOrder):
-Earlier Lenovo test-driver entries present or removed:
-Exact result code:
-Trigger at entry and before patch, if logged:
-Page/descriptor permissions and protocol status, if logged:
-Warning displayed (yes / no / not tested):
-USB keyboard/storage/other peripheral behavior:
-Shutdown, restart and removal observations:
-Log or photograph reference:
-What this observation establishes:
-What it does not establish:
-```
+The latest additional automatic USB log was reviewed after the comparison: marker absent at entry and before patch; patched=1, verified=1, status=0, rollback=0; no permission changes. A full internal-run log has not been supplied. Older reports preserve the evidence known at their checkpoint; [current status](../docs/STATUS.md) supersedes their pending-work notes.
 
-Keep raw logs locally until reviewed. Recovery keys, serial numbers, and complete firmware dumps do not belong in a result report. If a log is unavailable, say so and record the screen text; do not reconstruct missing values from expected results.
+For future reports, use the GitHub hardware-result template. Include model/BIOS, package hash if measured, power setup, Secure Boot state, how the helper started, exact result, warning behavior, peripherals, and what was not tested. Never reconstruct missing logs from expected values. Keep raw logs and photographs private until reviewed for serial numbers, partition identifiers, recovery keys, and other personal data.

@@ -14,6 +14,9 @@ records = json.loads((root / 'docs/BINARY-VALIDATION.json').read_text())
 expected_zip_sha = 'e546150399e4cb7f679201a244936019edaec580e16d4d19ccfc5e3e0f4c77a3'
 shell_sha = 'e6c8c8b6ecf594927724894a394f12c1cb110faa393d6c0e01c1784f9df7cd7d'
 allowed_efi = {v['sha256'] for v in records.values()} | {shell_sha}
+allowed_images = {
+    'docs/images/terminal-warning-banner.png': 'f7294410bee047cf9b998795bd3df17ad8ccebfa5f9fd8c3557e460d47a53547',
+}
 
 
 def require(ok, message):
@@ -64,10 +67,19 @@ for name in set(filter(None, names)):
     if name == 'source/tests/GKCN65WW-warning-fixture.bin':
         require(hashlib.sha256(data).hexdigest() == '6ea392a3d33a65e326a58e88025aec186daffc71ea7811edd5fce2ca68c00e9f', 'Unexpected firmware fixture')
         continue
-    require(p.suffix.lower() not in {'.fd', '.rom', '.bin', '.bundle', '.log'}, f'Excluded private data: {name}')
+    require(p.suffix.lower() not in {'.fd', '.rom', '.bin', '.bundle', '.log', '.key', '.pem', '.pfx', '.p12', '.auth', '.esl'}, f'Excluded private data: {name}')
+    require(not any(marker in data for marker in (
+        b'-----BEGIN ' + b'PRIVATE KEY-----',
+        b'-----BEGIN RSA ' + b'PRIVATE KEY-----',
+        b'-----BEGIN EC ' + b'PRIVATE KEY-----',
+        b'-----BEGIN ENCRYPTED ' + b'PRIVATE KEY-----',
+        b'-----BEGIN OPENSSH ' + b'PRIVATE KEY-----',
+    )), f'Private key material: {name}')
     if p.suffix.lower() == '.zip':
         require(name in allowed_archives, f'Unexpected archive: {name}')
         require(hashlib.sha256(data).hexdigest() == allowed_archives[name], f'Archive hash mismatch: {name}')
+    elif name in allowed_images:
+        require(hashlib.sha256(data).hexdigest() == allowed_images[name], f'Unreviewed image: {name}')
     elif p.suffix.lower() == '.efi' or data.startswith(b'MZ'):
         require(hashlib.sha256(data).hexdigest() in allowed_efi, f'Unexpected executable payload: {name}')
     else:

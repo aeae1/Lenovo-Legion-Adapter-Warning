@@ -9,5 +9,13 @@ __pycache__/
 *.log
 *.LOG
 hardware-results/raw/
+private-results/
+*.key
+*.pem
+*.pfx
+*.p12
+*.auth
+*.esl
+*.signed.efi
 Lenovo-GKCN65WW-V4-USB-Test.zip
 !source/tests/GKCN65WW-warning-fixture.bin

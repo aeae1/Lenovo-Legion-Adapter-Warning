@@ -1,36 +1,36 @@
 # Project status — September 10, 2026
 
-**Helper-dependent warning suppression demonstrated on the tested laptop: warning absent with the helper USB, present after removal, and absent after reinsertion. The latest automatic log confirms another early verified patch. USB peripheral checks remain pending. Internal-drive deployment revision 1 is now prepared for its first physical installation.**
+**Internal-drive startup without the helper USB is now reported working on the tested GKCN65WW laptop. Mouse and thumb-drive checks also passed according to the owner. Secure Boot signing research has started; the working installation remains unsigned with Secure Boot disabled.**
 
 | Question | Evidence and current conclusion |
 | --- | --- |
-| Is there an easy warning-off NVRAM preference? | None established in the analyzed image. `IllegalAdapter` is status, not an identified disable preference. |
-| Can V4 recognize and patch its intended target? | Both manual and automatic physical logs confirm expected identity, patched=1, verified=1, status=EFI_SUCCESS, and rollback=0. |
-| Is the laptop's target page writable? | Yes in the diagnostic, manual, and both reviewed automatic logs: valid, executable supervisor mapping with a writable 2 MiB leaf page. The Memory Attribute Protocol lookup returned EFI_NOT_FOUND. Other boot paths must be checked independently. |
-| Can the automatic driver run early enough? | The first automatic log, supplied after USB DriverOrder registration, shows the marker absent at entry and before patching, followed by a verified patch. This supports the expected timing window for that run. Subsequent normal boots were reported warning-free with the helper, with the warning returning when the helper USB was removed. |
-| Does the adapter warning disappear? | Yes in the reported with/without/with comparison: absent with the helper USB, present without it, absent again after reinsertion. The report follows the same-USB-C-power comparison instructions; broader repeatability remains untested. |
-| Does skipping the callback affect USB behavior? | Unknown. The skipped routine also contains a USB controller connection call; later physical testing must check peripherals. |
-| Is the older CPU interface useful? | A SetMemoryAttributes implementation was identified statically. V4 does not use it, and it was not needed in the observed writable-page runs. Suitability and restoration remain unproven. |
-| Can the helper keep running after Secure Boot is re-enabled? | No trust arrangement has been established for these unsigned helpers. |
+| Easy warning-off NVRAM preference? | None established. `IllegalAdapter` is status, not an identified disable preference. |
+| Intended module recognized and writable? | Diagnostic, manual, and automatic logs matched the expected module. Target mapping was writable; no memory-permission change was needed. |
+| Automatic driver early enough? | Both reviewed automatic USB logs found the trigger absent at entry and before patch, then recorded patched=1, verified=1, status=0, rollback=0. |
+| Warning suppressed? | With/without/with helper-USB comparison reported absent/present/absent under the same USB-C setup. |
+| USB-free normal startup? | Internal copy compared successfully; exactly one INTERNAL entry on an NVMe path was shown. Normal startup without the helper USB or F12 was reported. No full internal-run log supplied. |
+| USB behavior? | Owner reported mouse and thumb drive working after internal startup. Dock and broader controller behavior remain untested. |
+| Secure Boot enabled on Lenovo? | Not yet. Offline signature verification and disposable OVMF enforcement tests passed. Firmware trust enrollment and Lenovo behavior with Secure Boot on are unresolved. |
+| Permission fallback needed? | Not for the observed writable-page runs. Older CPU protocol research is deferred; no fallback or CR0.WP bypass was added. |
 
-## Validation already recorded
+## Physical evidence
 
-The original V4 package records 33 successful sanitized host cases, byte-identical rebuilds, binary inspection, and an isolated QEMU/OVMF integration run. The emulator's native read-only permission-transition test was **skipped** because that protocol was unavailable; mock coverage does not replace a physical test. Details: [VALIDATION.md](VALIDATION.md).
+The [hardware index](../hardware-results/README.md) links the diagnostic, manual, automatic, comparison, and internal-deployment records. The latest USB automatic log agrees with the first: marker absent twice, verified RAM patch, no permission changes. The internal screenshots show a successful byte comparison and migration from the USB TEST entry to an internal NVMe INTERNAL entry. The owner's subsequent reports establish normal USB-free startup and basic peripheral operation in that setup.
 
-Public repository checks run package integrity and deterministic builds. The 33 host cases run against the reviewed inert module fixture. GitHub workflow outcomes are recorded in Actions. See [repository setup validation](REPOSITORY-VALIDATION.md) for the local result.
+The exact charger/cable model, separately measured executable hash on the physical USB, dock behavior, long-term behavior, and physical internal disable/recovery procedure have not been documented. Do not generalize the observations to other firmware or machines. No further repeat of the completed with/without/with test is needed merely to restate it.
 
-## Immediate next evidence
+## Secure Boot project
 
-Physical evidence is recorded in the [diagnostic report](../hardware-results/phase-1-diagnostic-reviewed.md), [manual report](../hardware-results/phase-2-manual-reviewed.md), and [first automatic report](../hardware-results/phase-3-automatic-initial-reviewed.md). The installer screenshot showed an initially empty DriverOrder list followed by exactly one V4 TEST entry pointing to the USB helper. The subsequent automatic log has `status=0`, `patched=1`, `verified=1`, `rollback=0`, and `EFI_NOT_FOUND` for both trigger checks. The earlier diagnostic/manual logs instead found the trigger present.
+The actual firmware menu shows Secure Boot disabled, Platform Mode User Mode, and Secure Boot Mode Standard. Reset to Setup Mode and Restore Factory Keys are visible; no file-approval or certificate-enrollment menu is visible in the supplied photos. Static enrollment strings are a research lead, not proof of an accessible menu.
 
-A [subsequent observation](../hardware-results/phase-3-warning-free-reported.md) reported no warning on normal startup with the helper USB and no F12. The [shutdown/start comparison](../hardware-results/phase-3-usb-comparison-reported.md) then reproduced the expected sequence: warning returned without the helper USB and disappeared when it was reinserted. These user observations establish the desired behavior in the tested setup. A later full automatic log was then supplied and reviewed: both trigger lookups returned EFI_NOT_FOUND, patched=1, verified=1, status=EFI_SUCCESS, rollback=0, and no permission changes were attempted. This agrees with the earlier successful automatic log.
+New tooling signs an offline copy of the frozen driver, checks the signature, and verifies that the original executable payload was preserved. Disposable tests reject a wrong certificate and altered code. In an isolated OVMF machine with SecureBoot=1 and SetupMode=0, the trusted signed helper loaded and started without a Lenovo target; unsigned, untrusted, and altered copies were refused. No real firmware variables were written by these tests.
 
-[Issue #3](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/3) remains open for ordinary USB keyboard/mouse/storage/dock checks. The latest driver log has been received and reviewed. No further repeated startup cycles are required merely to restate the completed comparison. Record the actual peripheral observations and retain the newest `LENOVO_V4_DRIVER.LOG`.
+The [Windows inventory](../signing/README.md#next-step-on-the-laptop-read-only-inventory) only reads Secure Boot state and exports trust databases locally. It is the next proposed laptop observation. No permanent signing key, enrollment bundle, or replacement installed driver has been created. See [Secure Boot options](SECURE-BOOT-OPTIONS.md) and [signing validation](../signing/README.md#developer-validation).
 
-The exact charger/cable model, a separately measured USB executable hash, and long-term behavior have not been documented. The comparison instructions held the USB-C power setup constant and changed only the helper USB; no deviation was reported. Do not generalize this result to other BIOS versions, machines, or power/boot conditions without evidence.
+## Validation and releases
 
-The owner requested normal startup without the helper USB. [Internal deployment revision 1](../deployment/internal-1/READ-ME-FIRST.md) supplies a dedicated internal EFI folder, copy/readback script, explicit saved-entry migration, and disable/recovery instructions. It reuses the unchanged working helper. The new scripts are checked in isolated QEMU/OVMF; the internal startup and Windows recovery path still need physical confirmation. This preparation does not depend on repeating the completed USB comparison. Check normal peripherals during the next startup.
+Original V4 binaries/source and both published ZIPs remain unchanged. Public checks retain byte-identical rebuilds and 33 sanitized host cases. The original synthetic Lenovo-target integration, internal Shell-script VM checks, and new Secure Boot admission VM checks answer different questions; none is a substitute for laptop observations.
 
-The currently demonstrated setup still loads from USB. The internal package is ready to migrate the file and saved DriverOrder location; its RAM patch likewise lasts only the current boot and is reapplied automatically on each startup. No Secure Boot trust arrangement or physical read-only permission transition has been established. [Secure Boot research](SECURE-BOOT-OPTIONS.md) records exact-image-approval strings present in the supplied firmware, with menu availability and enforcement behavior unproven. V4 source, helper binaries, and the original public release assets remain unchanged.
+The original emulator permission-transition test was skipped because the relevant protocol was unavailable. Physical permission transitions remain untested and were unnecessary on the observed machine. Existing removal instructions are available; their complete physical recovery path has not been exercised.
 
-Future steps are in the [tracking issues](../planning/README.md). They are dependencies to investigate, not claims that every stage will work.
+[Issues #1, #2, #3, and #6](../planning/README.md) record completed diagnostic/manual/automatic/internal milestones. #5 tracks Secure Boot; #4 remains deferred research. Historical guides embedded in published ZIPs retain their original checkpoint text. Current web guides and release notes reflect the newer results.

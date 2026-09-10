@@ -1,14 +1,12 @@
 # Project tracking issues
 
-These issues track actual work and evidence. Hardware stages remain pending until reviewed observations are recorded.
+| Issue | State | Evidence / next work |
+| --- | --- | --- |
+| [#1](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/1) Diagnostic | Complete | Real module identity and writable target reviewed |
+| [#2](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/2) Manual RAM patch | Complete | Verified patch; permission change unnecessary |
+| [#3](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/3) Automatic timing and behavior | Complete | Early logs, warning/no-helper comparison, mouse/storage observations |
+| [#4](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/4) Older CPU interface | Open, deferred | Not needed on the observed writable pages |
+| [#5](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/5) Secure Boot trust | In progress | Offline signing and VM enforcement pass; Windows inventory prepared; Lenovo enrollment unresolved |
+| [#6](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/6) Internal deployment | Complete | Copy/entry reviewed; normal USB-free startup and peripherals reported; removal paths documented |
 
-| Issue | Work item |
-| --- | --- |
-| [#1](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/1) | Collect and review the physical Phase 1 diagnostic |
-| [#2](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/2) | Validate the manual RAM patch and permission restoration on the laptop |
-| [#3](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/3) | Test DriverOrder timing, warning suppression, and USB behavior |
-| [#4](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/4) | Investigate the older CPU Architectural Protocol as a possible fallback |
-| [#5](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/5) | Assess a supported Secure Boot trust arrangement after hardware viability is known |
-| [#6](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/6) | Plan USB-free deployment and removal only after a successful USB experiment |
-
-The Markdown files under `issues/` preserve the initial descriptions. GitHub Issues are authoritative for subsequent progress.
+Completion of the internal milestone does not mean physical recovery, docks, other machines, or long-term behavior have been tested. The original body files under `issues/` preserve the initial plans. Current GitHub issue descriptions/comments and [status](../docs/STATUS.md) track subsequent evidence.

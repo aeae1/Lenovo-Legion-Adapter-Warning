@@ -1,9 +1,11 @@
-# Assess a supported Secure Boot trust arrangement after hardware viability is known
+# Sign the V4 helper and establish Lenovo Secure Boot trust
 
-Depends on evidence that the automatic helper actually works on the target laptop.
+**September 10, 2026: signing research in progress.** The owner has reported successful internal startup without the helper USB. The working installation uses the original unsigned V4 helper with Secure Boot disabled.
 
-The supplied helpers are unsigned. Disabling Secure Boot for a test does not authorize them after Secure Boot is re-enabled. No signing/enrollment arrangement has been established for this machine.
+Offline signing tests pass: the intended certificate verifies, a wrong certificate and modified code are rejected, and the original executable payload is preserved. A disposable OVMF Secure Boot VM accepts the trusted signed helper and rejects unsigned, untrusted, and altered copies. These are development tests, not Lenovo enrollment or Secure Boot-enabled warning-suppression results.
 
-Research the laptop-supported trust path and effects on the existing boot chain before proposing any change. Preserve factory keys and keep BitLocker recovery information private. Do not conflate boot-order configuration with signature trust.
+The next laptop observation is the read-only Windows inventory in [the signing guide](../../signing/README.md#next-step-on-the-laptop-read-only-inventory). No permanent signing key, enrollment bundle, replacement installed driver, or key-reset instruction is supplied. Keep factory trust, revocations, and recovery information intact and private.
 
-Completion: a specific supported plan with validation requirements, or a documented reason that this project cannot meet the Secure Boot requirement. No key reset or enrollment is part of current V4 instructions.
+Remaining work: establish an accessible, supported Lenovo trust-enrollment route; review preservation and recovery; then validate early loading and warning suppression with Secure Boot enabled on the physical laptop. The supplied menu photographs do not establish an enrollment control. See [Secure Boot options](../../docs/SECURE-BOOT-OPTIONS.md).
+
+Completion: a specific validated trust arrangement on this Lenovo, or a documented reason the requirement cannot be met. A signature alone does not complete this issue.

@@ -3,36 +3,42 @@
     "title": "Collect and review the physical Phase 1 diagnostic",
     "body_file": "planning/issues/phase-1-diagnostic.md",
     "issue_number": 1,
-    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/1"
+    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/1",
+    "state": "closed"
   },
   {
     "title": "Validate the manual RAM patch and permission restoration on the laptop",
     "body_file": "planning/issues/phase-2-manual.md",
     "issue_number": 2,
-    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/2"
+    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/2",
+    "state": "closed"
   },
   {
     "title": "Test DriverOrder timing, warning suppression, and USB behavior",
     "body_file": "planning/issues/phase-3-timing.md",
     "issue_number": 3,
-    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/3"
+    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/3",
+    "state": "closed"
   },
   {
     "title": "Investigate the older CPU Architectural Protocol as a possible fallback",
     "body_file": "planning/issues/cpu-memory-interface.md",
     "issue_number": 4,
-    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/4"
+    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/4",
+    "state": "open"
   },
   {
-    "title": "Assess a supported Secure Boot trust arrangement after hardware viability is known",
+    "title": "Sign the V4 helper and establish Lenovo Secure Boot trust",
     "body_file": "planning/issues/secure-boot.md",
     "issue_number": 5,
-    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/5"
+    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/5",
+    "state": "open"
   },
   {
-    "title": "Plan USB-free deployment and removal only after a successful USB experiment",
+    "title": "Deploy the working V4 helper internally and verify USB-free startup",
     "body_file": "planning/issues/internal-deployment.md",
     "issue_number": 6,
-    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/6"
+    "url": "https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/6",
+    "state": "closed"
   }
 ]
