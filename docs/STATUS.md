@@ -1,5 +1,7 @@
 # Project status — September 10, 2026
 
+**Version 1.0.0 is the latest regular release of the tested unsigned setup. Existing internal V4 installations use the same helper and need no reinstall. Secure Boot support remains in development.**
+
 **Internal-drive startup without the helper USB is now reported working on the tested GKCN65WW laptop. Mouse and thumb-drive checks also passed according to the owner. Secure Boot signing research has started; the working installation remains unsigned with Secure Boot disabled.**
 
 | Question | Evidence and current conclusion |

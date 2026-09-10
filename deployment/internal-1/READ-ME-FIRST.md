@@ -103,7 +103,7 @@ Run:
 bcfg driver dump -v
 ```
 
-Find the entry described as **Lenovo USB-C Warning Patch v4 TEST** and check that its path points to the USB helper. Remove only that entry, using its **current displayed Option position**. In your earlier screenshot it was Option 00; if it is still Option 00, the command is:
+Find the entry described as **Lenovo USB-C Warning Patch v4 TEST** and check that its path points to the USB helper. Remove only that entry, using its **current displayed Option position**. For example, only if the current dump identifies that exact USB TEST entry as Option 00, the command is:
 
 ```text
 bcfg driver rm 0

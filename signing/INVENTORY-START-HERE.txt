@@ -1,0 +1,12 @@
+SECURE BOOT PREPARATION - WINDOWS READ-ONLY INVENTORY
+
+1. Extract this entire ZIP before running anything.
+2. Read SIGNING-WALKTHROUGH.md, Stage 1.
+3. Right-click Read-SecureBootState.cmd and choose Run as administrator.
+4. Open private-results, then the newest SecureBoot-... folder.
+5. Send summary.json privately in the project conversation. Keep .bin exports local.
+
+No reboot, EFI installation, signing-key creation, enrollment, or firmware change
+is performed by this package. It only reads configuration and saves reports.
+If Windows blocks the script, keep the message for review; do not turn security
+tools off to force it to run. Do not send an encryption recovery key.

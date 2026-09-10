@@ -1,0 +1,65 @@
+name: Verify and publish Version 1.0.0
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/publish-v1.yml
+permissions:
+  contents: read
+concurrency:
+  group: publish-v1-0-0
+  cancel-in-progress: false
+jobs:
+  verify:
+    uses: ./.github/workflows/check.yml
+  inventory:
+    runs-on: windows-2022
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Validate the included Windows inventory
+        shell: powershell
+        run: .\signing\check-inventory.ps1
+  publish:
+    needs: [verify, inventory]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Build the reviewed downloads
+        run: |
+          python3 scripts/package-v1.py
+          python3 scripts/package-v1.py --check
+      - name: Publish a regular release and mark it latest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GH_REPO" = aeae1/Lenovo-Legion-Adapter-Warning
+          test "$(gh api "repos/$GH_REPO" --jq '.private')" = false
+          if gh release view v1.0.0 >/dev/null 2>&1; then
+            echo "Version 1.0.0 already exists; preserving its tag and assets."
+            exit 0
+          fi
+          if gh api "repos/$GH_REPO/git/ref/tags/v1.0.0" >/dev/null 2>&1; then
+            echo "Tag exists without a release; inspect it before publishing."
+            exit 1
+          fi
+          (cd build/release-v1.0.0 && sha256sum --check SHA256SUMS-v1.0.0.txt)
+          gh release create v1.0.0 \
+            build/release-v1.0.0/Lenovo-Legion-Adapter-Warning-v1.0.0.zip \
+            build/release-v1.0.0/Lenovo-Secure-Boot-Inventory-v1.0.0.zip \
+            build/release-v1.0.0/SHA256SUMS-v1.0.0.txt \
+            --target "$GITHUB_SHA" \
+            --title "Version 1.0.0 — Lenovo Legion Adapter Warning" \
+            --notes-file docs/releases/v1.0.0.md \
+            --latest

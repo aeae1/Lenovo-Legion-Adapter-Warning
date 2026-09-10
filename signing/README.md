@@ -1,6 +1,8 @@
 # Secure Boot signing project
 
-**Status: offline signing and Secure Boot admission in a disposable VM validated; Lenovo trust enrollment and Secure Boot-enabled warning suppression not yet tested.** The working internal installation stays on the original unsigned V4 driver. There is no new driver release to install.
+**Status: offline signing and Secure Boot admission in a disposable VM validated; Lenovo trust enrollment and Secure Boot-enabled warning suppression not yet tested.** The working internal installation stays on the original unsigned V4 driver. Version 1.0.0 uses that same executable; there is no signed driver upgrade to install.
+
+**[Detailed owner walkthrough and risks](WALKTHROUGH.md)** — start here for the complete sequence and the Windows-only first step.
 
 Signing is feasible. The harder device-specific step is teaching the Lenovo firmware to trust that signature while retaining its existing Windows/OEM keys and revocations. The [Secure Boot note](../docs/SECURE-BOOT-OPTIONS.md) explains the two possible routes: certificate enrollment or exact-image approval.
 
@@ -8,11 +10,11 @@ Signing is feasible. The harder device-specific step is teaching the Lenovo firm
 
 This runs in **Windows**, not the UEFI Shell. It reads settings and writes ordinary local result files. It does not change firmware keys, mount the EFI partition, replace the installed driver, or enable Secure Boot.
 
-1. Open the [repository page](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning), choose **Code → Download ZIP**, and extract it fully. Do not run from inside the ZIP.
-2. Open the extracted `signing` folder.
+1. Open the [Version 1.0.0 release](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/tag/v1.0.0), download **Lenovo-Secure-Boot-Inventory-v1.0.0.zip**, and extract it fully. Do not run from inside the ZIP.
+2. Open the extracted inventory folder. If using a full source checkout instead, open its `signing` folder.
 3. Right-click **Read-SecureBootState.cmd** and choose **Run as administrator**. Approve the Windows administrator prompt. Administrator access is required by Microsoft's firmware query cmdlets. The launcher permits this script for that PowerShell process only; it does not persist an execution-policy change.
 4. It should say **Finished reading Secure Boot state. No firmware settings were changed.** If it reports an error, keep the message for review instead of changing BIOS settings.
-5. In `signing/private-results`, open the newly created `SecureBoot-...` folder. Share **summary.json** privately for review. Keep the `.bin` exports locally; do not post the entire folder to a public issue.
+5. In `private-results` beside the scripts, open the newly created `SecureBoot-...` folder. Share **summary.json** privately for review. Keep the `.bin` exports locally; do not post the entire folder to a public issue.
 
 The summary contains state flags, variable sizes, attributes, hashes, and any query failures. It does not collect the computer name, serial number, Windows username, or encryption recovery key. A missing optional default variable can be normal; a missing required database still needs review. Each run creates its own folder.
 

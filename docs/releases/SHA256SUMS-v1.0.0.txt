@@ -1,0 +1,2 @@
+65bd6a4d8ff61c1bb4d5fc0db60d03f21b76a2ef9ea7c0572a5849894971bab9  Lenovo-Legion-Adapter-Warning-v1.0.0.zip
+7edec1f231464b927ff2f9fa5bfae17f34fe70baee629aa63c6af214a3498169  Lenovo-Secure-Boot-Inventory-v1.0.0.zip

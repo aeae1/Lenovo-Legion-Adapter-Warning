@@ -2,13 +2,17 @@
 
 ![Lenovo Legion Adapter Warning — terminal graphic showing the full low-wattage AC adapter startup message](docs/images/terminal-warning-banner.png)
 
-**USB-free startup demonstrated · Legion 5 Pro 16ACH6H / 82JQ · GKCN65WW only · Experimental community project**
+**Version 1.0.0 · Regular release · Legion 5 Pro 16ACH6H / 82JQ · GKCN65WW only**
+
+**[Download the latest release](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/latest)** — the working unsigned helper, staged USB setup, and internal installation/recovery guides. Existing working internal V4 installations need no reinstall.
 
 Suppresses this Lenovo startup message, including the **Press Esc to continue** interruption:
 
 > The connected AC adapter has a lower wattage than the recommended AC adapter which was shipped with the system. To use AC power, please connect the AC adapter which was shipped with the system. Press Esc to continue.
 
 The owner supplied this exact wording. It also matches the English warning strings in the reviewed GKCN65WW firmware module, with line breaks normalized. If you searched for a **Lenovo Legion USB-C charger warning**, **lower wattage AC adapter warning**, or **Press Esc to continue at startup**, this is the issue being investigated here.
+
+Version 1.0.0 is the product release number. The unchanged helper, filenames, and saved driver entry retain their **V4** identifiers. A regular release does not expand hardware compatibility or imply completed Secure Boot support. This is an independent community project.
 
 ## What works today
 
@@ -32,11 +36,11 @@ These are results from one machine and firmware version. Dock behavior, other mo
 
 ## Start here
 
-**New to the project:** download the [V4 USB test prerelease](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/tag/v4-public-1) and follow the [beginner walkthrough](docs/BEGINNER-WALKTHROUGH.md). Start with the diagnostic, review its result, then progress through the manual and automatic tests. Phase 1 alone cannot establish early automatic timing.
+**New to the project:** download **Lenovo-Legion-Adapter-Warning-v1.0.0.zip** from the [Version 1.0.0 release](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/tag/v1.0.0), open its `START-HERE.md`, and follow the [staged USB walkthrough](docs/V1-USB-WALKTHROUGH.md). Start with the diagnostic, review its result, then progress through the manual and automatic tests. Phase 1 alone cannot establish early automatic timing.
 
-**Already completed the successful automatic USB test:** use the [internal deployment prerelease](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/tag/v4-internal-1) and [current internal installation guide](deployment/internal-1/READ-ME-FIRST.md). The USB is used for installation and kept for recovery; it need not stay plugged in afterward. Identify your actual EFI volumes rather than assuming an FS number.
+**Already completed the successful automatic USB test:** use the `INTERNAL_SETUP` folder in the Version 1.0.0 ZIP and its `READ-ME-FIRST.md` ([current web guide](deployment/internal-1/READ-ME-FIRST.md)). The USB is used for installation and kept for recovery; it need not stay plugged in afterward. Identify your actual EFI volumes rather than assuming an FS number.
 
-**Already running internally:** no reinstall or replacement helper is needed for this documentation/signing update. The [next Secure Boot step](signing/README.md#next-step-on-the-laptop-read-only-inventory) is an optional Windows inventory that reads settings and saves local files. It does not enroll a key or change the working driver.
+**Already running internally:** no reinstall or replacement helper is needed for this documentation/signing update. The [detailed signing walkthrough and risks](signing/WALKTHROUGH.md) begin with a Windows inventory that reads settings and saves local files. The release includes a separate small **Lenovo-Secure-Boot-Inventory-v1.0.0.zip** for this step. It does not enroll a key or change the working driver.
 
 Use the normal Lenovo charger or a sufficiently charged battery for the initial mechanics stages. Use the USB-C setup that originally produced the warning for the actual suppression check. Keep any encryption recovery key private and available before boot-configuration changes.
 
