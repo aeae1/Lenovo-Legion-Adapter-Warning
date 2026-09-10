@@ -20,6 +20,10 @@ Use the normal Lenovo charger for the initial stages, or a sufficiently charged 
 
 The public download contains the **same V4 EFI helper bytes** as the original test package. Its filename and ZIP checksum differ because firmware test data and personal context were removed. No replacement of an existing Phase 1 USB is necessary. See [public packaging](docs/PUBLIC-PACKAGE.md).
 
+## Use it without leaving a USB plugged in
+
+After the automatic USB experiment succeeds, [internal deployment revision 1](deployment/internal-1/READ-ME-FIRST.md) moves the same helper to a dedicated internal EFI folder and replaces the project's USB driver entry. The setup USB is then kept only for recovery. The scripts have an isolated Shell validation path; physical internal startup still needs confirmation. This remains a per-boot RAM patch with an unsigned helper, not a BIOS flash. [Secure Boot options](docs/SECURE-BOOT-OPTIONS.md) are tracked separately.
+
 ## Research and progress
 
 | Record | Contents |

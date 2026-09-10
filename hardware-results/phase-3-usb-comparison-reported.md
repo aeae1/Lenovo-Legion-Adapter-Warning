@@ -17,3 +17,7 @@ Together with the reviewed successful automatic log, the result supports the int
 The fresh driver logs from the warning/comparison runs and normal USB peripheral behavior have not yet been supplied. The previous automatic log is not substituted for those later records. Exact charger/cable model, a separately measured USB binary hash, and long-term behavior remain undocumented.
 
 [Issue #3](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/3) remains open for the peripheral check and final archival log. The helper still resides on USB. Internal deployment and Secure Boot trust remain separate tasks. No source, helper binary, or published release asset changed for this report.
+
+## Latest automatic log reviewed
+
+A further full AUTOMATIC_DRIVER log was supplied after the comparison. It matches the supported firmware, reports EFI_NOT_FOUND at both trigger checks, and confirms patched=1, verified=1, status=EFI_SUCCESS, rollback=0. The target mapping was writable and no permission change was attempted. This closes the previously pending latest-log item; ordinary USB peripheral observations remain outstanding. Raw addresses, page-table entries and clock values are omitted from this public record.

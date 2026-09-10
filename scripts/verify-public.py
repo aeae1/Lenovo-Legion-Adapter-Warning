@@ -35,6 +35,12 @@ for name, record in records.items():
     print(f'PASS byte-identical V4 helper: {name}')
 
 archive_rel = 'release-assets/Lenovo-GKCN65WW-V4-Public-USB-Test.zip'
+internal_archive_rel = 'release-assets/Lenovo-GKCN65WW-V4-Internal-Deployment-1.zip'
+allowed_archives = {
+    archive_rel: expected_zip_sha,
+    internal_archive_rel: '18fdccac56f4e0d78152b51a6b4c6479f63c7619726b2388bd18e271f55992ce',
+}
+subprocess.run([sys.executable, str(root / 'scripts/package-internal.py'), '--check'], check=True)
 archive = root / archive_rel
 require(hashlib.sha256(archive.read_bytes()).hexdigest() == expected_zip_sha, 'Public ZIP hash mismatch')
 required = {line.split('  ', 1)[1] for line in (root / 'SHA256SUMS.txt').read_text().splitlines()} | {'SHA256SUMS.txt'}
@@ -60,7 +66,8 @@ for name in set(filter(None, names)):
         continue
     require(p.suffix.lower() not in {'.fd', '.rom', '.bin', '.bundle', '.log'}, f'Excluded private data: {name}')
     if p.suffix.lower() == '.zip':
-        require(name == archive_rel, f'Unexpected archive: {name}')
+        require(name in allowed_archives, f'Unexpected archive: {name}')
+        require(hashlib.sha256(data).hexdigest() == allowed_archives[name], f'Archive hash mismatch: {name}')
     elif p.suffix.lower() == '.efi' or data.startswith(b'MZ'):
         require(hashlib.sha256(data).hexdigest() in allowed_efi, f'Unexpected executable payload: {name}')
     else:
