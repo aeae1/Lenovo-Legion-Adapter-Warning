@@ -1,6 +1,6 @@
 # Physical laptop results
 
-**Phases 1 and 2 passed.** See the [diagnostic report](phase-1-diagnostic-reviewed.md) and [manual patch report](phase-2-manual-reviewed.md). Physical byte change/readback is verified. Automatic timing, warning suppression, and USB behavior remain untested.
+**Diagnostic, manual, and first automatic runs reviewed.** See the [diagnostic report](phase-1-diagnostic-reviewed.md), [manual report](phase-2-manual-reviewed.md), and [initial automatic report](phase-3-automatic-initial-reviewed.md). The automatic helper found the trigger absent and verified its RAM patch. Actual USB-C warning suppression, USB behavior, and repeatability remain untested.
 
 Use the GitHub hardware-result issue template or copy this record into a new dated Markdown file after observations are available:
 

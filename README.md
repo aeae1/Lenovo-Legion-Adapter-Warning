@@ -1,6 +1,6 @@
 # Lenovo Legion Adapter Warning
 
-**Experimental UEFI research · GKCN65WW only · Phases 1–2 passed; automatic validation pending**
+**Experimental UEFI research · GKCN65WW only · Automatic RAM patch verified; warning test pending**
 
 A narrowly targeted attempt to suppress the startup adapter warning on the **Lenovo Legion 5 Pro 16ACH6H / 82JQ**. No simple warning-off NVRAM setting has been established.
 

@@ -1,15 +1,15 @@
 # Project status — September 10, 2026
 
-**Phases 1 and 2 passed: physical target recognition and manual one-byte RAM patch/readback verified. Automatic timing, warning suppression, and USB behavior remain untested.**
+**Automatic RAM patch verified: the trigger was absent at both automatic-driver checks and the byte change passed readback. Actual USB-C warning suppression, USB behavior, and repeatability remain untested.**
 
 | Question | Evidence and current conclusion |
 | --- | --- |
 | Is there an easy warning-off NVRAM preference? | None established in the analyzed image. `IllegalAdapter` is status, not an identified disable preference. |
-| Can V4 recognize and patch its intended target? | Full manual log confirms the expected identity, patched=1, verified=1, status=EFI_SUCCESS, and rollback=0 on the physical laptop. |
-| Is the laptop's target page writable? | Yes in both reviewed boots: valid, executable supervisor mapping with a writable 2 MiB leaf page. The Memory Attribute Protocol lookup returned EFI_NOT_FOUND. Other boot paths must be checked independently. |
-| Can the automatic driver run early enough? | Static BdsDxe ordering is promising. DriverOrder execution on the laptop remains untested. An F12 diagnostic cannot settle this. |
+| Can V4 recognize and patch its intended target? | Both manual and automatic physical logs confirm expected identity, patched=1, verified=1, status=EFI_SUCCESS, and rollback=0. |
+| Is the laptop's target page writable? | Yes in the diagnostic, manual, and first automatic logs: valid, executable supervisor mapping with a writable 2 MiB leaf page. The Memory Attribute Protocol lookup returned EFI_NOT_FOUND. Other boot paths must be checked independently. |
+| Can the automatic driver run early enough? | The first automatic log, supplied after USB DriverOrder registration, shows the marker absent at entry and before patching, followed by a verified patch. This supports the expected timing window for that run; warning behavior and other boot conditions remain unverified. |
 | Does skipping the callback affect USB behavior? | Unknown. The skipped routine also contains a USB controller connection call; later physical testing must check peripherals. |
-| Is the older CPU interface useful? | A SetMemoryAttributes implementation was identified statically. V4 does not use it; suitability and restoration are unproven. |
+| Is the older CPU interface useful? | A SetMemoryAttributes implementation was identified statically. V4 does not use it, and it was not needed in the observed writable-page runs. Suitability and restoration remain unproven. |
 | Can the helper keep running after Secure Boot is re-enabled? | No trust arrangement has been established for these unsigned helpers. |
 
 ## Validation already recorded
@@ -20,16 +20,14 @@ Public repository checks run package integrity and deterministic builds. The 33 
 
 ## Immediate next evidence
 
-The [Phase 1 report](../hardware-results/phase-1-diagnostic-reviewed.md) records successful diagnosis; the [Phase 2 report](../hardware-results/phase-2-manual-reviewed.md) records successful physical byte change/readback with no rollback and no permission transition. Issues [#1](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/1) and [#2](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/2) are complete for those test outcomes.
+Physical evidence is recorded in the [diagnostic report](../hardware-results/phase-1-diagnostic-reviewed.md), [manual report](../hardware-results/phase-2-manual-reviewed.md), and [first automatic report](../hardware-results/phase-3-automatic-initial-reviewed.md). The installer screenshot showed an initially empty DriverOrder list followed by exactly one V4 TEST entry pointing to the USB helper. The subsequent automatic log has `status=0`, `patched=1`, `verified=1`, `rollback=0`, and `EFI_NOT_FOUND` for both trigger checks. The earlier diagnostic/manual logs instead found the trigger present.
 
-The trigger was already present at entry and before the manual patch. Manual mode permits this; automatic mode will refuse it. The next evidence is a fresh `LENOVO_V4_DRIVER.LOG` from a normal startup after registering the USB helper in DriverOrder. Target success includes `mode=AUTOMATIC_DRIVER`, `status=0`, `patched=1`, `verified=1`, `rollback=0`, and `trigger_before_patch=0x800000000000000E` (marker absent). Observed warning suppression and USB behavior still need separate testing.
+[Issue #3](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/3) remains open for actual warning suppression, USB behavior, and the comparison with the helper absent. The successful automatic log does not establish those observations. Power source and a direct report of normal Windows startup have not yet been supplied.
 
-Before registering the driver, fully power off after the manual test, remove the USB, and verify normal Windows startup. That recovery/normal-boot observation has not yet been explicitly reported. The normal Lenovo charger is the recommended baseline, but a sufficiently charged battery alone is acceptable for the initial non-USB-C loading test. Record which was used. This does not substitute for the later USB-C warning test or establish behavior under a different power condition.
+For the next run, preserve the existing driver log under another name so the helper creates a fresh `LENOVO_V4_DRIVER.LOG`. Save work and fully shut down. Keep the helper USB in the same port, disconnect the normal Lenovo charger if attached, and connect the USB-C charger and cable that reliably produce the warning. Start normally without F12. Record whether the adapter warning appears, whether Windows starts normally, and whether ordinary USB keyboard/mouse/storage/dock functions work. Send the fresh driver log. If the preceding automatic run already used USB-C, record that fact and the observed warning behavior rather than infer the power source from the log.
 
-Follow the Phase 3 section of [WALKTHROUGH.md](../WALKTHROUGH.md): copy the Phase 3 folder contents, enter the bundled Shell, identify the USB, inspect DriverOrder with the no-argument installer, and add the test entry only if no competing Lenovo test entry exists. Preserve unrelated entries. If the existing list is unclear, review it before any change. The exact V4 entry must appear once. Leave the USB in the same port and boot normally for the automatic test. A missing log is inconclusive; do not repeatedly add entries to fix it.
+If the warning appears, press Esc to continue and inspect the log. If startup hangs, fully power off, remove the helper USB and boot without it. Do not reinstall or add duplicate entries merely because a log is missing. After a successful USB-C run, the planned powered-off USB-removal/reinsertion comparison can test whether suppression depends on the helper. Firmware may remove missing-media entries; if reinsertion does not restore operation, inspect the current DriverOrder state before drawing a conclusion.
 
-If startup hangs, fully power off, remove the USB and boot without it. The saved DriverOrder entry may remain; use the exact-description/current-position removal instructions when ending the test. The helper stays on USB and its RAM patch lasts only that boot. No full BIOS flash, internal installation, or Secure Boot trust change has been added.
-
-Power sources and previous-driver-entry state for the completed tests remain unconfirmed. The supplied logs show successful V4 execution; they do not encode those missing observations. V4 helper source, binaries, and published package remain unchanged.
+The helper stays on USB and its RAM patch lasts only that boot. The saved DriverOrder entry may remain until removed. Secure Boot trust, internal installation, and a read-only permission transition have not been tested or implemented beyond the original package. V4 source, helper binaries, and published release assets remain unchanged.
 
 Future steps are in the [tracking issues](../planning/README.md). They are dependencies to investigate, not claims that every stage will work.
