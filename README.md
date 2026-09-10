@@ -4,7 +4,7 @@
 
 **Version 1.0.0 · Regular release · Legion 5 Pro 16ACH6H / 82JQ · GKCN65WW only**
 
-A small community project that gets the low-wattage USB-C adapter warning out of the way, so your Legion can boot straight into Windows.
+A small community project that gets the low-wattage USB-C adapter warning out of the way, so your Legion can start up without the interruption.
 
 **[Download Version 1.0.0](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/latest)** · [Setup guide](docs/V1-USB-WALKTHROUGH.md)
 
@@ -33,6 +33,12 @@ The helper runs automatically before Windows and changes one byte in the loaded 
 | Secure Boot signing | Offline signature and OVMF admission tests pass; Lenovo enrollment still open |
 
 These are results from one machine and firmware version. Dock behavior, other models/BIOS versions, long-term reliability, and physical internal recovery tests are not established. No full internal-run log has been supplied; the internal result is based on setup screenshots and the owner's startup report.
+
+## Operating-system compatibility
+
+The helper runs in UEFI before the operating system and has no Windows dependency. On the supported laptop and firmware, the warning suppression should also apply when booting Linux or another UEFI operating system, but those setups have not been physically tested. It does not select or replace your operating system's bootloader.
+
+The current installation tools are Windows-oriented: the internal staging script checks for Windows Boot Manager to help identify the target EFI partition, and the Secure Boot inventory runs in Windows PowerShell. A Linux-only installation would need an adapted, reviewed setup procedure. Firmware compatibility and Secure Boot trust requirements still apply.
 
 ## Start here
 
