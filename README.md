@@ -40,6 +40,8 @@ The helper runs in UEFI before the operating system and has no Windows dependenc
 
 The current installation tools are Windows-oriented: the internal staging script checks for Windows Boot Manager to help identify the target EFI partition, and the Secure Boot inventory runs in Windows PowerShell. A Linux-only installation would need an adapted, reviewed setup procedure. Firmware compatibility and Secure Boot trust requirements still apply.
 
+For unexpected results, see [troubleshooting and optional help](docs/TROUBLESHOOTING.md). No log submission or maintainer approval is required.
+
 ## Start here
 
 **New to the project:** download **Lenovo-Legion-Adapter-Warning-v1.0.0.zip** from the [Version 1.0.0 release](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/tag/v1.0.0), open its `START-HERE.md`, and follow the [staged USB walkthrough](docs/V1-USB-WALKTHROUGH.md). Start with the diagnostic, review its result, then progress through the manual and automatic tests. Phase 1 alone cannot establish early automatic timing.

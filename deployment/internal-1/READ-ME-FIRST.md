@@ -62,7 +62,7 @@ ls fs0:\EFI\Microsoft\Boot\bootmgfw.efi
 ls fs1:\stage-internal.nsh
 ```
 
-**The remaining examples assume you have confirmed internal = FS0 and USB = FS1. Substitute the actual numbers throughout.** If multiple volumes contain Windows Boot Manager and you cannot identify the active internal Windows EFI partition, stop before copying and send the volume list for review. Scrub partition identifiers from public posts.
+**The remaining examples assume you have confirmed internal = FS0 and USB = FS1. Substitute the actual numbers throughout.** If multiple volumes contain Windows Boot Manager, do not choose the first match. Run `bcfg boot dump -v` and compare the Windows Boot Manager device path with `map -v`: match the internal storage path and the `HD(...)` partition identifier, not just the filename. Multiple Windows entries or cloned disks can still make this ambiguous. If you cannot establish which entry starts your current Windows installation, leave the working USB setup in place and postpone internal installation. A technician or an LLM can help interpret the lists using this guide, but a guessed FS number is not sufficient evidence. See [troubleshooting](../../docs/TROUBLESHOOTING.md).
 
 Select the USB and its root:
 
@@ -132,7 +132,7 @@ reset -s
 
 Wait for the computer to turn off fully. Remove the helper USB. Connect the same USB-C charger/cable used in the successful comparison, and start normally without F12.
 
-Expected result: Windows starts with no adapter warning and no helper USB present. Report what happened. Also check the USB devices you normally use, such as a mouse, storage device, or dock. The skipped firmware routine includes a USB connection call, so ordinary peripheral behavior is the remaining functional check.
+Expected result: Windows starts with no adapter warning and no helper USB present. Confirm this result before considering the move successful. Also check the USB devices you normally use, such as a mouse, storage device, or dock. The skipped firmware routine includes a USB connection call, so ordinary peripheral behavior is the remaining functional check.
 
 There is no reason to repeat the completed USB with/without/with experiment. This startup checks only the new internal location.
 
@@ -150,7 +150,7 @@ copy S:\LENOVO_V4_DRIVER.LOG "%USERPROFILE%\Lenovo-V4-internal-results.txt"
 mountvol S: /D
 ```
 
-Run these one at a time. If mounting fails, stop; do not run commands against a different volume. If the expected paths are absent, remove the temporary mount with `mountvol S: /D` and stop. The last command only removes the temporary drive letter; it does not delete the EFI partition. The copied text is in your Windows user folder. Send it privately for review; do not post the raw log publicly.
+Run these one at a time. If mounting fails, stop; do not run commands against a different volume. If the expected paths are absent, remove the temporary mount with `mountvol S: /D` and stop. The last command only removes the temporary drive letter; it does not delete the EFI partition. The copied text is in your Windows user folder. Inspect the newest complete BEGIN/END record using the [automatic-driver criteria](../../docs/V1-USB-WALKTHROUGH.md#first-automatic-boot-lenovo-charger). Keep the raw log locally; it is not a required submission to the maintainer.
 
 ## Disable or remove the internal setup
 
@@ -180,7 +180,7 @@ shutdown /s /t 0
 
 If mounting fails or the expected helper is absent, stop and unmount the temporary letter if it was created. If a `.disabled` file already exists, renaming refuses to overwrite it; inspect the folder before doing anything else. The saved driver entry will remain but cannot load the renamed file. Remove that exact entry later through the Shell.
 
-If startup hangs before you can reach the Shell, an internal helper can run before the F12 menu too. Try entering Lenovo firmware settings with F2/Fn+F2 at power-on and enabling Secure Boot **without clearing keys**. With the current unsigned, unenrolled helper this should block it, allowing the usual trusted Windows boot path. It will also block the unsigned recovery Shell. If Windows then starts, disable the internal file using the steps above. The exact Lenovo recovery path has not been physically tested; if firmware settings or Windows remain inaccessible, stop and report what the machine displays. Do not start a BIOS flash as a recovery guess.
+If startup hangs before you can reach the Shell, an internal helper can run before the F12 menu too. Try entering Lenovo firmware settings with F2/Fn+F2 at power-on and enabling Secure Boot **without clearing keys**. With the current unsigned, unenrolled helper this should block it, allowing the usual trusted Windows boot path. It will also block the unsigned recovery Shell. If Windows then starts, disable the internal file using the steps above. The exact Lenovo recovery path has not been physically tested; if firmware settings or Windows remain inaccessible, stop retrying the helper and seek Lenovo support or a qualified repair technician, describing whether the logo, firmware settings, or Windows can be reached. Do not start a BIOS flash as a recovery guess.
 
 That Secure Boot recovery method must be reconsidered if we later enroll or sign the helper: a trusted helper would no longer be blocked merely by enabling Secure Boot.
 

@@ -4,7 +4,9 @@ SECURE BOOT PREPARATION - WINDOWS READ-ONLY INVENTORY
 2. Read SIGNING-WALKTHROUGH.md, Stage 1.
 3. Right-click Read-SecureBootState.cmd and choose Run as administrator.
 4. Open private-results, then the newest SecureBoot-... folder.
-5. Send summary.json privately in the project conversation. Keep .bin exports local.
+5. Open summary.json in a text editor; follow Stage 1 of the current online guide.
+   Retain the reports and .bin exports locally. No maintainer submission is needed.
+   Current guide: https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/blob/main/signing/WALKTHROUGH.md
 
 No reboot, EFI installation, signing-key creation, enrollment, or firmware change
 is performed by this package. It only reads configuration and saves reports.

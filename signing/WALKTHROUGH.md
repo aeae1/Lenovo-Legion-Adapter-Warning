@@ -52,7 +52,7 @@ This command reads status. It does not turn encryption on or off.
 
 - If it says **Fully Decrypted** and **0.0% encrypted**, that volume is not encrypted at that time.
 - If it is encrypted, encrypting, suspended, or unclear, establish that you have the correct recovery key stored separately before any later boot-setting change. You can still perform today's read-only inventory.
-- Tell the reviewer the conversion status, percentage encrypted, and protection status. Do not send the recovery key or run a key-display command for sharing.
+- Record the conversion status, percentage encrypted, and protection status locally. Never share the recovery key with an LLM or in a support post.
 
 Boot changes can trigger BitLocker recovery. Without the necessary recovery information, encrypted data can become inaccessible. Suspending protection for a later planned change is different from decrypting a disk; any suspension/resumption will be scheduled only with that actual change. [Microsoft's recovery overview](https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/recovery-overview) explains the triggers and recovery options.
 
@@ -70,21 +70,21 @@ Finished reading Secure Boot state. No firmware settings were changed.
 
 The script reads `SecureBoot`, `SetupMode`, `PK`, `KEK`, `db`, `dbx`, and available default databases, then saves ordinary local files. It does not mount the EFI partition, replace the driver, change DriverOrder, enroll a certificate, clear keys, or enable Secure Boot. [Microsoft documents these read operations and their administrator requirement](https://learn.microsoft.com/en-us/powershell/module/secureboot/get-securebootuefi?view=windowsserver2025-ps).
 
-### 4. Find and send the result
+### 4. Read and retain the result
 
 Beside the scripts, open **private-results**, then the newly created **SecureBoot-...** folder.
 
-Send **summary.json** in this conversation, plus the encryption-status fields from step 2. Keep the `.bin` exports locally. Do not post the whole results folder to a public GitHub issue. If the script failed, send the visible error instead; do not guess at a firmware fix.
+Open **summary.json** in a text editor. Check whether required variable reads succeeded and note `secure_boot_enabled` and the `SecureBoot`/`SetupMode` values. Missing optional default variables differ from failed reads of active databases. Keep the summary, encryption-status notes, and `.bin` exports locally. If the script failed, resolve that read error before planning enrollment; do not guess at a firmware fix. The [troubleshooting guide](../docs/TROUBLESHOOTING.md) explains how to get optional help without assuming maintainer review.
 
 The summary contains state flags, database sizes, attributes, hashes, and read failures. It does not collect your computer name, serial number, Windows username, or recovery key. The database exports contain public certificates/hashes, not their private signing keys, but reveal the machine's trust configuration.
 
-**Stop here for review.** This checkpoint exists because the laptop-specific enrollment route and recovery plan need real device information. It is not a request to repeat the successful installation tests or obtain permission for ordinary signing preparation.
+**The inventory does not authorize enrollment.** Continue with offline planning only until a supported enrollment method and a usable recovery path have been established for the actual laptop. This public project does not provide an individual approval or log-review service.
 
 ### 5. How the result will be used
 
 The reported setup suggests `SecureBoot=0` and `SetupMode=0` with existing platform keys, but those values must come from the actual inventory. Secure Boot being off does not necessarily mean the databases are freely writable. Missing optional defaults are different from failure to read a required active database.
 
-Hashes and sizes show what was read; they do not identify every certificate or prove an enrollment menu exists. If parsing a specific database is necessary, the reviewer may request that particular export privately. The summary alone is not a certificate inventory.
+Hashes and sizes show what was read; they do not identify every certificate or prove an enrollment menu exists. Certificate identification requires parsing the EFI signature lists in the corresponding export; an LLM or technician familiar with UEFI can help interpret them. Do not infer certificate contents from file size alone. The summary alone is not a certificate inventory.
 
 ## Stage 2 — establish a supported trust route
 
@@ -150,4 +150,4 @@ Retain existing Windows/OEM trust and revocations, confirm encryption protection
 
 This work does not flash the BIOS executable image or alter charger wattage. That removes the specific risk of a failed BIOS-image flash, but does not make persistent trust or EFI filesystem changes risk-free. Startup failures may be recoverable if settings or recovery media remain reachable; that is not a guarantee. No defensible numeric brick probability has been measured for this Lenovo.
 
-For the owner already running internally, the useful next action is Stage 1: send `summary.json` and the encryption-status fields. The rest of this guide explains what must be established before turning Secure Boot back on.
+For an existing internal installation, complete the inventory once and retain the results. No reinstall is needed. The remaining stages require a device-specific trust and recovery procedure; they are not ready-to-run enrollment instructions.

@@ -7,7 +7,7 @@ to a FAT32 USB, use the Lenovo Lenovo charger, disable Secure Boot
 without clearing keys, and F12-boot that USB. Check your current BIOS
 version and encryption status first as described in START-HERE.md.
 
-Send LENOVO_V4_DIAGNOSTIC.LOG from the USB for review before Phase 2.
+Compare LENOVO_V4_DIAGNOSTIC.LOG with every Phase 1 criterion in WALKTHROUGH.md before Phase 2. No maintainer submission is required.
 The manual patch and automatic USB driver are already included for
 the subsequent tests. No BIOS flash or internal installation is needed.
 

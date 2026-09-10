@@ -27,7 +27,7 @@ The actual firmware menu shows Secure Boot disabled, Platform Mode User Mode, an
 
 New tooling signs an offline copy of the frozen driver, checks the signature, and verifies that the original executable payload was preserved. Disposable tests reject a wrong certificate and altered code. In an isolated OVMF machine with SecureBoot=1 and SetupMode=0, the trusted signed helper loaded and started without a Lenovo target; unsigned, untrusted, and altered copies were refused. No real firmware variables were written by these tests.
 
-The [Windows inventory](../signing/README.md#next-step-on-the-laptop-read-only-inventory) only reads Secure Boot state and exports trust databases locally. It is the next proposed laptop observation. No permanent signing key, enrollment bundle, or replacement installed driver has been created. See [Secure Boot options](SECURE-BOOT-OPTIONS.md) and [signing validation](../signing/README.md#developer-validation).
+The [Windows inventory](../signing/README.md#next-step-on-the-laptop-read-only-inventory) only reads Secure Boot state and exports trust databases locally. A physical inventory has now been read and parsed: Secure Boot was disabled, platform keys remained installed, and current revocations included entries absent from the reported defaults. This does not establish an enrollment or restoration method. No permanent signing key, enrollment bundle, or replacement installed driver has been created. See [Secure Boot options](SECURE-BOOT-OPTIONS.md) and [signing validation](../signing/README.md#developer-validation).
 
 ## Validation and releases
 

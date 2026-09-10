@@ -4,6 +4,9 @@ import hashlib
 import zipfile
 
 root = Path(__file__).resolve().parents[1]
+# This filename was published. Never replace it with edited guide contents.
+if (root / 'release-assets/Lenovo-GKCN65WW-V4-Public-USB-Test.zip').exists():
+    raise SystemExit('Historical release already exists; use a new release name and checksums for changed contents.')
 stages = ['01_DIAGNOSTIC_USB', '02_MANUAL_PATCH_USB', '03_AUTOMATIC_DRIVER_TEST']
 paths = [p.relative_to(root).as_posix() for name in stages for p in (root / name).rglob('*') if p.is_file()]
 paths += ['START-HERE.md', 'WALKTHROUGH.md', 'README-FIRST.txt', 'verify-package.py',

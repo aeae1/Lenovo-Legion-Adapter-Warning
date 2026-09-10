@@ -50,6 +50,11 @@ required = {line.split('  ', 1)[1] for line in (root / 'SHA256SUMS.txt').read_te
 with zipfile.ZipFile(archive) as z:
     entries = [i for i in z.infolist() if not i.is_dir()]
     require(len(entries) == len(required), 'Unexpected public archive file count')
+    # The immutable release has its own manifest; current web docs may evolve.
+    prefix = 'Lenovo-GKCN65WW-V4-Public-USB-Test/'
+    archived_sums = dict((line.split('  ', 1)[1], line.split('  ', 1)[0])
+                         for line in z.read(prefix + 'SHA256SUMS.txt').decode().splitlines())
+    require(set(archived_sums) == required - {'SHA256SUMS.txt'}, 'Archive manifest selection differs')
     seen = set()
     for item in entries:
         parts = Path(item.filename).parts
@@ -57,7 +62,9 @@ with zipfile.ZipFile(archive) as z:
         name = Path(*parts[1:]).as_posix()
         require(name in required and name not in seen, f'Unexpected/duplicate archive member: {name}')
         seen.add(name)
-        require(z.read(item) == (root / name).read_bytes(), f'Public archive differs: {name}')
+        if name != 'SHA256SUMS.txt':
+            require(hashlib.sha256(z.read(item)).hexdigest() == archived_sums[name],
+                    f'Archive member checksum differs: {name}')
     require(seen == required, 'Missing public archive member')
 
 names = subprocess.check_output(['git', 'ls-files', '-z', '--cached', '--others', '--exclude-standard'], cwd=root).decode().split('\0')

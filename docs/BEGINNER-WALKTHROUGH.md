@@ -2,7 +2,7 @@
 
 For your Lenovo Legion 5 Pro 16ACH6H / 82JQ with BIOS **GKCN65WW**. This guide accompanies **Lenovo-GKCN65WW-V4-Public-USB-Test.zip**. You do not need to know how to program, compile anything, or understand the hexadecimal numbers in the logs.
 
-**This is an experimental workaround. It has passed software tests and UEFI emulation, but it has not yet been demonstrated on your physical Lenovo. Start with the diagnostic and share its result before attempting the patch.**
+**This is an experimental workaround. It has passed software tests and UEFI emulation, but it has not yet been demonstrated on your physical Lenovo. Start with the diagnostic and check every expected result in the [current staged guide](V1-USB-WALKTHROUGH.md) before attempting the patch.**
 
 ## 1. What we are trying to accomplish
 
@@ -52,7 +52,7 @@ For a helper-related freeze, the first recovery attempt is:
 
 That should prevent this USB-hosted helper from running again. A fresh boot without it loads the original warning code. The saved startup entry can still remain and may need cleanup afterward. **Removing the USB is the intended escape route, not an absolute guarantee against every firmware problem.** Removing it after the helper has already run does not undo that boot's RAM change; power off first.
 
-If the machine still will not reach the Lenovo logo or BIOS Setup without the USB, stop and report exactly what it does. Do not flash the analyzed BIOS image, clear the TPM, or try random firmware-recovery steps from this package. The analyzed BIOS file was an analysis input, not a recovery image prepared for you to flash.
+If the machine still will not reach the Lenovo logo or BIOS Setup without the USB, stop retrying and contact Lenovo support or a qualified repair technician, describing which startup screens remain accessible. Do not flash the analyzed BIOS image, clear the TPM, or try random firmware-recovery steps from this package. The analyzed BIOS file was an analysis input, not a recovery image prepared for you to flash.
 
 ## 3. Secure Boot and encryption, in plain language
 
@@ -67,7 +67,7 @@ To check in Windows:
 1. Right-click Start and open **Terminal (Admin)** or **Windows PowerShell (Admin)**.
 2. Paste `manage-bde -status C:` and press Enter. This displays status; it does not change encryption.
 3. If you see **Fully Decrypted** and **0.0% encrypted**, C: is not encrypted at that point.
-4. If it is encrypted, encrypting, suspended, or anything is unclear, establish that you have the recovery key before changing Secure Boot. You can send the status output for interpretation; do not send the recovery key itself.
+4. If it is encrypted, encrypting, suspended, or anything is unclear, establish that you have the recovery key before changing Secure Boot. An LLM or technician can help interpret the status fields; never share the recovery key itself.
 
 Microsoft's recovery-key page is [Find your BitLocker recovery key](https://support.microsoft.com/windows/find-your-bitlocker-recovery-key-6b71ad27-0b89-ea08-f143-056f5ab347d6).
 
@@ -116,7 +116,7 @@ Check the firmware version:
 1. Press **Windows + R**.
 2. Type `msinfo32` and press Enter.
 3. Find **BIOS Version/Date**. It should include **GKCN65WW**.
-4. If it shows another version, send that information before running the helper. Do not update or downgrade the BIOS just to match this guide.
+4. If it shows another version, this guide does not support that firmware: do not run the helper. Do not update or downgrade the BIOS just to match this guide.
 
 Check encryption as described above. Then right-click the downloaded ZIP and choose **Extract All**. Open the extracted package.
 
@@ -138,19 +138,19 @@ If you previously installed an automatic V2/V3 helper, tell me before collecting
 ## 7. Run Stage 1
 
 1. Connect the normal Lenovo charger and leave the prepared USB plugged in.
-2. Restart and press **F2** or **Fn+F2** during startup to enter BIOS Setup. The exact screen/menu placement can vary; if the keys do not get you there, report what you see.
+2. Restart and press **F2** or **Fn+F2** during startup to enter BIOS Setup. The exact screen/menu placement can vary; if the keys do not get you there, consult the model-specific Lenovo instructions for entering firmware settings before proceeding.
 3. Find **Secure Boot**. Take a photo of its original setting. Change it to **Disabled**, without clearing keys or changing unrelated settings. Use the firmware's displayed Save and Exit option.
 4. At the next startup, press **F12** or **Fn+F12** to open the temporary boot menu.
 5. Choose the UEFI entry for the USB. The diagnostic should open directly; there should be no Shell prompt in this stage.
 6. Let it finish. It displays a result and attempts to save `LENOVO_V4_DIAGNOSTIC.LOG` to the USB.
 7. Photograph the result. Press a key to exit. If it returns to a menu, choose **Windows Boot Manager** to return to Windows. If needed, power off after the diagnostic finishes, remove the USB, and start normally.
-8. Open the USB in Windows and review `LENOVO_V4_DIAGNOSTIC.LOG` for personal details, then share its relevant results for review. If the log is missing, upload the photo instead.
+8. Open `LENOVO_V4_DIAGNOSTIC.LOG` on the USB in Windows and compare its newest complete record with all Phase 1 criteria in the [current staged guide](V1-USB-WALKTHROUGH.md). If the log is missing, retain the photo for interpretation.
 
-**Stop here for the first session.** We need the live result to decide whether Stage 2 is appropriate; you do not need to interpret hexadecimal addresses yourself.
+**Continue only when every Phase 1 criterion in the current staged guide is satisfied.** If the result is unclear, retain the log and use the troubleshooting guide; do not guess from an isolated number.
 
 `READY_OR_PATCHED` in this diagnostic means the initial checks found a candidate. It does not mean the diagnostic patched anything. `patched=0` is correct in Stage 1.
 
-If the USB is absent from the boot menu, or you get a security violation, report that screen and the USB layout. Do not turn on Legacy/CSM mode or clear Secure Boot keys to experiment.
+If the USB is absent from the boot menu, or you get a security violation, verify the USB is FAT32, that `EFI\BOOT\BOOTX64.EFI` is at its root, and that Secure Boot is disabled without clearing keys. If the issue persists, stop and use the troubleshooting guide. Do not turn on Legacy/CSM mode or clear Secure Boot keys to experiment.
 
 ## 8. Later: Stage 2, manual patch
 
@@ -160,7 +160,7 @@ Keep the normal charger connected. In Windows, copy the contents of `02_MANUAL_P
 
 F12-boot the USB again. This time the manual test asks for **uppercase P**. Press **Shift + P** to begin. Another key exits without attempting the patch.
 
-The application checks the target again and attempts the temporary change. It saves `LENOVO_V4_MANUAL.LOG`. Success requires the successful result plus `patched=1`, `verified=1`, and no rollback. If it temporarily cleared read-only protection, restoration must also succeed. Send the log rather than judging success from a single green-looking line or an isolated number.
+The application checks the target again and attempts the temporary change. It saves `LENOVO_V4_MANUAL.LOG`. Success requires the successful result plus `patched=1`, `verified=1`, and no rollback. If it temporarily cleared read-only protection, restoration must also succeed. Check every Phase 2 field in the [current staged guide](V1-USB-WALKTHROUGH.md); one successful-looking line is not sufficient.
 
 Fully power off after this test. This separates the manual experiment from the next boot. If anything freezes or reports failure, use the USB-removal recovery sequence and do not install the automatic driver yet.
 
@@ -186,7 +186,7 @@ Run:
 install-driver.nsh
 ```
 
-Without the word INSTALL, this only displays the current driver list and instructions. If old Lenovo test entries appear, send a photo so we can identify exactly what to remove. Unrelated entries must be preserved.
+Without the word INSTALL, this only displays the current driver list and instructions. For old Lenovo test entries, match the exact description and USB helper path, then follow the current Option-position removal instructions in the [staged guide](V1-USB-WALKTHROUGH.md). If an entry cannot be identified confidently, leave it intact and do not install a competing helper. Unrelated entries must be preserved.
 
 Once the prior manual test has passed and the list is clear of competing old Lenovo helpers, run **once**:
 
@@ -198,9 +198,9 @@ The result should show exactly one entry named **Lenovo USB-C Warning Patch v4 T
 
 Type `reset`, then let the laptop boot normally **without pressing F12**. Leave the USB inserted in the same port and keep the normal charger connected. The expected visible behavior is ordinary startup to Windows with no helper banner or Shell.
 
-In Windows, upload the new `LENOVO_V4_DRIVER.LOG`. A reported successful patch must also show that the warning trigger was absent just before the patch. This log is what answers the early-startup timing question.
+In Windows, inspect the newest complete record in `LENOVO_V4_DRIVER.LOG` against the automatic-test criteria in the [staged guide](V1-USB-WALKTHROUGH.md). A reported successful patch must also show that the warning trigger was absent just before the patch. This log is what answers the early-startup timing question.
 
-If Windows does not start normally, or there is no new complete log, stop and report the result. A missing log alone does not tell us whether the helper ran, because writing the log is deliberately nonessential to boot.
+If Windows does not start normally, or there is no new complete log, stop progression and use the [troubleshooting guide](TROUBLESHOOTING.md) to interpret the failure. A missing log alone does not tell us whether the helper ran, because writing the log is deliberately nonessential to boot.
 
 ## 10. Later: use the actual USB-C charger and compare
 
@@ -210,8 +210,8 @@ After the automatic test with the normal charger succeeds:
 2. Save your work. For a full shutdown, open a terminal and run `shutdown /s /t 0`. This shuts down immediately after applications are handled; do not run it with unsaved work. No forced-close `/f` option is included. [Microsoft shutdown reference](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/shutdown).
 3. Keep the USB inserted. Disconnect the normal Lenovo charger and connect the USB-C charger that reliably produces the original warning.
 4. Power on normally without F12. Observe whether the warning appears.
-5. If it appears, press Esc as usual, let Windows start, and upload the new driver log. Do not interpret the continued warning as a brick.
-6. If it does not appear, upload the successful log and check normal USB keyboard/dock operation.
+5. If it appears, press Esc as usual, let Windows start, and inspect the newest driver log against the automatic-test criteria; do not proceed to internal installation. Do not interpret the continued warning as a brick.
+6. If it does not appear, retain the successful log locally and check normal USB keyboard/dock operation.
 
 Then perform the comparison across fresh boots:
 
@@ -233,12 +233,12 @@ bcfg driver dump -v
 
 Find **Lenovo USB-C Warning Patch v4 TEST**. Removal uses that entry's **current Option/list position**, not its `Driver####` identifier. Positions can change. The command form is `bcfg driver rm <current-position>`; the angle-bracket text is a placeholder and must not be typed literally.
 
-If the correct entry is unclear, request review of a photo of the list before removing it. Do not blindly type `bcfg driver rm 0`. After removal, display the list again and confirm only the intended entry is gone.
+If the correct entry is unclear, leave the entry intact and the helper USB disconnected during ordinary startup. Consult the [troubleshooting guide](TROUBLESHOOTING.md) before removal. Do not blindly type `bcfg driver rm 0`. After removal, display the list again and confirm only the intended entry is gone.
 
 If stopping the project, restore Secure Boot to its original enabled state after removing the unsigned helper's entry. Do not clear or replace the factory keys. Re-enabling it does not allow this unsigned helper to continue suppressing the warning.
 
 ## 12. What you need to know right now
 
-You are preparing a USB and running a small pre-Windows diagnostic. You are not being asked to program the BIOS, flash the uploaded file, compile source, or install the automatic patch immediately.
+You are preparing a USB and running a small pre-Windows diagnostic. You are not being asked to program the BIOS, flash a BIOS image, compile source, or install the automatic patch immediately.
 
-Your first useful deliverable is **LENOVO_V4_DIAGNOSTIC.LOG**, or a photo if logging fails. The later instructions are here so you understand the whole project and can assess the tradeoffs before starting.
+Your first diagnostic record is **LENOVO_V4_DIAGNOSTIC.LOG**, or a photo if logging fails. The later instructions are here so you understand the whole project and can assess the tradeoffs before starting.

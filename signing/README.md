@@ -14,7 +14,7 @@ This runs in **Windows**, not the UEFI Shell. It reads settings and writes ordin
 2. Open the extracted inventory folder. If using a full source checkout instead, open its `signing` folder.
 3. Right-click **Read-SecureBootState.cmd** and choose **Run as administrator**. Approve the Windows administrator prompt. Administrator access is required by Microsoft's firmware query cmdlets. The launcher permits this script for that PowerShell process only; it does not persist an execution-policy change.
 4. It should say **Finished reading Secure Boot state. No firmware settings were changed.** If it reports an error, keep the message for review instead of changing BIOS settings.
-5. In `private-results` beside the scripts, open the newly created `SecureBoot-...` folder. Share **summary.json** privately for review. Keep the `.bin` exports locally; do not post the entire folder to a public issue.
+5. In `private-results` beside the scripts, open the newly created `SecureBoot-...` folder. Open **summary.json** in a text editor and follow [Stage 1 interpretation](WALKTHROUGH.md#4-read-and-retain-the-result). No submission to the maintainer is required. Keep the `.bin` exports locally; do not post the entire folder to a public issue.
 
 The summary contains state flags, variable sizes, attributes, hashes, and any query failures. It does not collect the computer name, serial number, Windows username, or encryption recovery key. A missing optional default variable can be normal; a missing required database still needs review. Each run creates its own folder.
 
@@ -50,7 +50,7 @@ Private keys must stay off GitHub and the installation USB. No permanent signing
 | --- | --- |
 | Offline signing | Locally passed: correct signature verifies; wrong cert and tampered code rejected; original payload preserved; existing output refused; mismatched-key output removed |
 | OVMF Secure Boot admission | Locally passed: SecureBoot=1, SetupMode=0; trusted helper accepted and started; unsigned, untrusted, and tampered helpers rejected with EFI_ACCESS_DENIED |
-| Windows inventory | CI parses and exercises it with mocked Windows PowerShell 5.1 queries, including missing variables, separate reports, and unsupported firmware. See the actual Actions result; no physical Lenovo inventory yet |
+| Windows inventory | CI parses and exercises it with mocked Windows PowerShell 5.1 queries, including missing variables, separate reports, and unsupported firmware. See the actual Actions result; a physical Lenovo inventory has also been read and parsed, with Secure Boot disabled and existing platform keys retained |
 | Original V4 checks | Unchanged 33 sanitized host cases, fixed helper hashes, and archive checks remain separate |
 | Physical Lenovo with Secure Boot enabled | Not tested; no trust enrollment performed |
 

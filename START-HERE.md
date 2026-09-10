@@ -9,7 +9,7 @@ Target: Lenovo Legion 5 Pro 16ACH6H / 82JQ, BIOS **GKCN65WW**.
 3. Use a spare **FAT32** USB. Copy the **contents of `01_DIAGNOSTIC_USB`** to its root. You should have `EFI\BOOT\BOOTX64.EFI`. No extra download is needed.
 4. Enter BIOS with F2/Fn+F2 and set **Secure Boot = Disabled**. Keep the factory keys; do not clear or replace them.
 5. F12-boot the USB. The diagnostic opens directly. It only inspects firmware and saves a text log to that USB.
-6. Photograph the result if needed, then press a key to exit. Return to Windows and **send `LENOVO_V4_DIAGNOSTIC.LOG` from the USB**. If the log cannot be written, send the screen photo.
+6. Photograph the result if needed, then press a key to exit. Return to Windows and compare **`LENOVO_V4_DIAGNOSTIC.LOG` from the USB** with every Phase 1 criterion in `WALKTHROUGH.md`. If the log cannot be written, retain the screen photo for interpretation. No maintainer submission is required.
 
 The next phases and their files are already included in `WALKTHROUGH.md`: a manual RAM test, then a USB-hosted automatic driver test and removal instructions. Review the live diagnostic before proceeding to the manual test.
 

@@ -10,7 +10,7 @@ Use a spare FAT32 USB. If formatting is necessary, back up that USB first: forma
 
 Copy the **contents** of `01_DIAGNOSTIC_USB` to the USB root. Keep other useful files and old logs backed up. `EFI\BOOT\BOOTX64.EFI` and `LenovoWarning-v4-Diagnostic.efi` are identical; the former is the standard removable-media boot filename.
 
-F12-boot the UEFI USB entry. It displays a compact result and appends a detailed record to `LENOVO_V4_DIAGNOSTIC.LOG`. Send that log for review before Phase 2. If writing fails, take a photo of the whole result.
+F12-boot the UEFI USB entry. It displays a compact result and appends a detailed record to `LENOVO_V4_DIAGNOSTIC.LOG`. Compare the newest complete log record with every expected result below before Phase 2. If writing fails, take a photo of the whole result.
 
 Expected candidate result:
 
@@ -25,7 +25,7 @@ The trigger may already be present in a diagnostic launched from F12. That does 
 
 ## Phase 2: manual RAM patch mechanics
 
-After the Phase 1 result has been reviewed, keep the Lenovo charger connected. Copy the contents of `02_MANUAL_PATCH_USB` onto the same USB, replacing `EFI\BOOT\BOOTX64.EFI`. No reformat is necessary. Retain the Phase 1 log.
+After every Phase 1 criterion below its diagnostic instructions is satisfied, keep the Lenovo charger connected. Copy the contents of `02_MANUAL_PATCH_USB` onto the same USB, replacing `EFI\BOOT\BOOTX64.EFI`. No reformat is necessary. Retain the Phase 1 log.
 
 F12-boot that USB. The manual application asks for **uppercase P** before running; any other key exits. It repeats identity and permission checks independently of the earlier diagnostic.
 
@@ -37,7 +37,7 @@ Success requires:
 
 It writes `LENOVO_V4_MANUAL.LOG`. Photograph the screen if the log cannot be written. After the test, fully power off. This manual test establishes write mechanics; it does not establish early-enough execution or suppression of the real warning.
 
-On any error or freeze, stop. Fully power off, remove the USB, then boot normally. If restoration failed, a byte change or permission change may remain for that boot; a fresh boot discards this test's RAM state. The stored BIOS was not flashed. Send the log before trying another patch.
+On any error or freeze, stop. Fully power off, remove the USB, then boot normally. If restoration failed, a byte change or permission change may remain for that boot; a fresh boot discards this test's RAM state. The stored BIOS was not flashed. Keep the failure log locally and resolve the reported error before another attempt. See the troubleshooting guide linked below for help interpreting it.
 
 ## Phase 3: automatic driver from the USB
 
@@ -104,7 +104,7 @@ After the Lenovo-charger automatic test passes:
 
 The `/hybrid` option is separate from this shutdown command. [Microsoft shutdown command reference](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/shutdown).
 
-If the warning appears, press Esc to continue and send the log. `WARNING_TRIGGER_ALREADY_PRESENT` means the helper found the marker installed and deliberately refused a late patch. A successful patch with no marker present, yet a visible warning, needs further investigation; it does not prove a specific cause by itself.
+If the warning appears, press Esc to continue and inspect the newest complete log record against the automatic-test criteria above. Do not proceed to internal installation while the warning test fails. `WARNING_TRIGGER_ALREADY_PRESENT` means the helper found the marker installed and deliberately refused a late patch. A successful patch with no marker present, yet a visible warning, needs further investigation; it does not prove a specific cause by itself.
 
 Also check normal USB keyboard/dock operation. The patched callback performs a USB-controller connection step before displaying the warning, so bypassing the entire callback skips that step too. The physical impact of that omission is not established by static analysis or emulation.
 
@@ -139,3 +139,5 @@ Confirm it is gone. Never blindly use position 0. If it is already absent, do no
 Re-enable Secure Boot after removing the unsigned helper if ending testing. The unsigned helper will not keep running with Secure Boot re-enabled. A supported signing/trust setup would be a separate task; factory key replacement is not part of this package.
 
 There is no BIOS flasher, EC tool, hidden-variable writer, Windows bootloader replacement, or internal-ESP installer here. After successful physical A/B testing, an internal installation and Secure Boot approach can be designed against the verified result.
+
+For help interpreting an unexpected result, see [troubleshooting](docs/TROUBLESHOOTING.md).
