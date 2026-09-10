@@ -1,6 +1,6 @@
 # Physical laptop results
 
-**Diagnostic, manual, and first automatic runs reviewed.** See the [diagnostic report](phase-1-diagnostic-reviewed.md), [manual report](phase-2-manual-reviewed.md), and [initial automatic report](phase-3-automatic-initial-reviewed.md). The automatic helper found the trigger absent and verified its RAM patch. A [subsequent warning-free normal boot](phase-3-warning-free-reported.md) was reported with the helper USB connected and no F12. Its fresh log, USB peripheral checks, and comparison with the helper absent remain pending.
+**Diagnostic, manual, and first automatic runs reviewed.** See the [diagnostic report](phase-1-diagnostic-reviewed.md), [manual report](phase-2-manual-reviewed.md), and [initial automatic report](phase-3-automatic-initial-reviewed.md). The automatic helper found the trigger absent and verified its RAM patch. A [subsequent warning-free normal boot](phase-3-warning-free-reported.md) was reported with the helper USB connected and no F12. The [with/without/with comparison](phase-3-usb-comparison-reported.md) then reproduced warning-free / warning / warning-free behavior. Fresh run logs and USB peripheral checks remain pending.
 
 Use the GitHub hardware-result issue template or copy this record into a new dated Markdown file after observations are available:
 
