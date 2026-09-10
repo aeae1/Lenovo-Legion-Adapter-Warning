@@ -1,6 +1,6 @@
 # GitHub About text
 
-The current GitHub connector can publish repository files and issue updates, but does not expose repository-administration settings. The sidebar description/topics below are prepared for the owner to apply with the gear beside **About** on the repository home page; this file does not apply them automatically.
+The description and all eleven topics below were applied to the repository's **About** sidebar on September 10, 2026, and verified on the repository home page. This file records the published text for future maintenance; editing this file does not automatically update the sidebar.
 
 Description:
 
