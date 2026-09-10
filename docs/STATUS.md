@@ -1,12 +1,12 @@
 # Project status — September 10, 2026
 
-**First physical diagnostic screen reviewed: correct target found and page writable. A physical patch and warning suppression remain untested. Full diagnostic log pending.**
+**Phase 1 complete: full physical diagnostic log reviewed; correct target found and page writable. The existing Phase 2 manual RAM test is the next step. Physical patching and warning suppression remain untested.**
 
 | Question | Evidence and current conclusion |
 | --- | --- |
 | Is there an easy warning-off NVRAM preference? | None established in the analyzed image. `IllegalAdapter` is status, not an identified disable preference. |
-| Can V4 recognize and patch its intended target? | Physical diagnostic screenshot shows one matching module and expected text CRC32 ED5F56DD. Physical patch result pending. |
-| Is the laptop's target page writable? | Yes in the photographed diagnostic boot: valid mapping and writable page. The Memory Attribute Protocol lookup returned EFI_NOT_FOUND. Other boot paths must be checked independently. |
+| Can V4 recognize and patch its intended target? | Full physical diagnostic log confirms one matching module, expected text CRC32 ED5F56DD and a ready candidate. Physical patch result pending. |
+| Is the laptop's target page writable? | Yes in the reviewed diagnostic boot: valid, executable supervisor mapping with a writable 2 MiB leaf page. The Memory Attribute Protocol lookup returned EFI_NOT_FOUND. Other boot paths must be checked independently. |
 | Can the automatic driver run early enough? | Static BdsDxe ordering is promising. DriverOrder execution on the laptop remains untested. An F12 diagnostic cannot settle this. |
 | Does skipping the callback affect USB behavior? | Unknown. The skipped routine also contains a USB controller connection call; later physical testing must check peripherals. |
 | Is the older CPU interface useful? | A SetMemoryAttributes implementation was identified statically. V4 does not use it; suitability and restoration are unproven. |
@@ -20,9 +20,9 @@ Public repository checks run package integrity and deterministic builds. The 33 
 
 ## Immediate next evidence
 
-The [Phase 1 issue](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/1) records the screen transcription. The screenshot shows `READY_OR_PATCHED`, one matching module, CRC32 `ED5F56DD`, valid/writable page, absent attribute protocol, no patch, and a successful USB-log write. The image and live addresses are not published. The power source for this observation has not been confirmed.
+The [Phase 1 report](../hardware-results/phase-1-diagnostic-reviewed.md) records the reviewed log and its limits; [issue #1](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/issues/1) is complete. The log confirms a ready target, writable executable supervisor mapping, absent Memory Attribute Protocol, and no patch or permission change. The trigger was already present at diagnostic entry, which is acceptable for this stage and does not measure DriverOrder timing. Unattempted-operation status fields and PAGE_AFTER remain at their initialized values.
 
-Obtain `LENOVO_V4_DIAGNOSTIC.LOG` for the complete record. The screen supports the manual-test candidate path, but it does not establish automatic timing or warning suppression.
+Proceed to the existing Phase 2 manual test after reviewing its walkthrough, then review `LENOVO_V4_MANUAL.LOG`. Expected success is `READY_OR_PATCHED`, `status=0`, `patched=1`, `verified=1`, and `rollback=0`. If permissions remain as observed, `cleared_ro=0` and `restored_ro=0` are expected because no read-only transition is needed. If a transition is attempted, successful restoration remains mandatory. Record the power source for both diagnostic and manual runs; it has not been confirmed for the diagnostic.
 
 For the manual RAM mechanics test, a sufficiently charged battery with both charging adapters disconnected is acceptable: the helper has no AC-presence requirement. The normal Lenovo charger was the conservative power baseline, not a firmware-programming requirement. The unchanged V4 screen still recommends that charger. Identity and permissions are checked again on every run; a different power state may change firmware behavior. Battery-only testing does not substitute for the later USB-C warning test or establish behavior with the normal charger.
 

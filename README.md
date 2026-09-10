@@ -1,6 +1,6 @@
 # Lenovo Legion Adapter Warning
 
-**Experimental UEFI research · GKCN65WW only · Physical validation pending**
+**Experimental UEFI research · GKCN65WW only · Phase 1 diagnostic passed; patch validation pending**
 
 A narrowly targeted attempt to suppress the startup adapter warning on the **Lenovo Legion 5 Pro 16ACH6H / 82JQ**. No simple warning-off NVRAM setting has been established.
 
@@ -16,7 +16,7 @@ Download the [V4 public USB test prerelease](https://github.com/aeae1/Lenovo-Leg
 | **2 — Manual RAM test** | Whether the one-byte change and any required permission restoration work. Requires review of Phase 1. |
 | **3 — Automatic USB test** | Whether DriverOrder starts the helper early enough, the warning disappears, and normal USB behavior remains intact. Requires a successful reviewed manual test. |
 
-Use the normal Lenovo charger for the initial stages. Review results before progressing. **Phase 1 does not establish automatic-driver timing, and a successful build does not establish a working laptop fix.** Review logs and photos for personal information before sharing them.
+Use the normal Lenovo charger for the initial stages, or a sufficiently charged battery alone for the manual mechanics test; see [current test guidance](docs/STATUS.md). Review results before progressing. **Phase 1 does not establish automatic-driver timing, and a successful build does not establish a working laptop fix.** Review logs and photos for personal information before sharing them.
 
 The public download contains the **same V4 EFI helper bytes** as the original test package. Its filename and ZIP checksum differ because firmware test data and personal context were removed. No replacement of an existing Phase 1 USB is necessary. See [public packaging](docs/PUBLIC-PACKAGE.md).
 

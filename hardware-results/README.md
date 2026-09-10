@@ -1,6 +1,6 @@
 # Physical laptop results
 
-**No physical result has been received as of repository preparation.** Existing files under `docs/` describe development tests, not a successful laptop test.
+**Phase 1 full diagnostic log reviewed: target and permission checks passed.** See [the reviewed report](phase-1-diagnostic-reviewed.md). Physical patching, automatic timing, warning suppression, and USB behavior remain untested.
 
 Use the GitHub hardware-result issue template or copy this record into a new dated Markdown file after observations are available:
 
