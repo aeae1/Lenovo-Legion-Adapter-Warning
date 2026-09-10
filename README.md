@@ -14,6 +14,10 @@ Suppresses this Lenovo startup message, including the **Press Esc to continue** 
 
 Once installed on the internal drive, it runs quietly at startup—no thumb drive needed for everyday use. **The current release requires Secure Boot disabled; support for enabling it is in development.**
 
+## Project credits
+
+ChatGPT Astra did most of the work on this project, including firmware analysis, coding, test tooling, and documentation. The project owner guided the work, helped debug issues, and performed the hands-on testing on the Lenovo laptop.
+
 ## What works today
 
 On the tested **Lenovo Legion 5 Pro 16ACH6H / 82JQ with BIOS GKCN65WW**, V4 suppressed the warning during USB-C-powered startup. Moving the helper to the internal SSD then allowed normal startup **without a thumb drive and without F12**. The owner also reported a working mouse and thumb drive. See the [reviewed hardware results](hardware-results/README.md).
