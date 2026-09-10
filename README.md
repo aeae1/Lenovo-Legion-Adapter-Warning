@@ -4,15 +4,15 @@
 
 **Version 1.0.0 · Regular release · Legion 5 Pro 16ACH6H / 82JQ · GKCN65WW only**
 
-**[Download the latest release](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/latest)** — the working unsigned helper, staged USB setup, and internal installation/recovery guides. Existing working internal V4 installations need no reinstall.
+A small community project that gets the low-wattage USB-C adapter warning out of the way, so your Legion can boot straight into Windows.
+
+**[Download Version 1.0.0](https://github.com/aeae1/Lenovo-Legion-Adapter-Warning/releases/latest)** · [Setup guide](docs/V1-USB-WALKTHROUGH.md)
 
 Suppresses this Lenovo startup message, including the **Press Esc to continue** interruption:
 
 > The connected AC adapter has a lower wattage than the recommended AC adapter which was shipped with the system. To use AC power, please connect the AC adapter which was shipped with the system. Press Esc to continue.
 
-The owner supplied this exact wording. It also matches the English warning strings in the reviewed GKCN65WW firmware module, with line breaks normalized. If you searched for a **Lenovo Legion USB-C charger warning**, **lower wattage AC adapter warning**, or **Press Esc to continue at startup**, this is the issue being investigated here.
-
-Version 1.0.0 is the product release number. The unchanged helper, filenames, and saved driver entry retain their **V4** identifiers. A regular release does not expand hardware compatibility or imply completed Secure Boot support. This is an independent community project.
+Once installed on the internal drive, it runs quietly at startup—no thumb drive needed for everyday use. **The current release requires Secure Boot disabled; support for enabling it is in development.**
 
 ## What works today
 
@@ -77,6 +77,8 @@ For an internal installation, removing the USB **does not disable the helper**. 
 | [Publication review](docs/PUBLICATION-REVIEW.md) | Public-data scope and firmware fixture |
 
 ## Build and check
+
+Version 1.0.0 uses the unchanged V4 helper. Its filenames and saved driver entry retain their V4 identifiers, so existing working installations need no reinstall.
 
 On x64 Linux with Python 3 and GCC:
 
