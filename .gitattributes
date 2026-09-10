@@ -1,0 +1,6 @@
+# Preserve the original package byte for byte, including its line endings.
+* -text
+*.efi binary
+*.EFI binary
+*.zip binary
+*.bin binary

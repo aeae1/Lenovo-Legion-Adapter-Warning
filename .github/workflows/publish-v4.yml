@@ -1,0 +1,47 @@
+name: Publish scrubbed V4 public prerelease
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - release-assets/Lenovo-GKCN65WW-V4-Public-USB-Test.zip
+      - .github/workflows/publish-v4.yml
+permissions:
+  contents: read
+concurrency:
+  group: publish-public-v4
+  cancel-in-progress: false
+jobs:
+  verify:
+    uses: ./.github/workflows/check.yml
+  publish:
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Publish once, preserving the original asset
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GH_REPO" = aeae1/Lenovo-Legion-Adapter-Warning
+          test "$(gh api "repos/$GH_REPO" --jq '.private')" = false
+          (cd release-assets && sha256sum --check SHA256SUMS-v4-public.txt)
+          if gh release view v4-public-1 >/dev/null 2>&1; then
+            echo "V4 release already exists; leaving its tag and assets unchanged."
+            exit 0
+          fi
+          gh release create v4-public-1 \
+            release-assets/Lenovo-GKCN65WW-V4-Public-USB-Test.zip \
+            release-assets/SHA256SUMS-v4-public.txt \
+            --target "$GITHUB_SHA" \
+            --title "V4 — public USB test, packaging revision 1" \
+            --notes-file docs/releases/v4-public-1.md \
+            --prerelease --latest=false

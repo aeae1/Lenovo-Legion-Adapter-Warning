@@ -1,0 +1,13 @@
+.venv/
+build/
+__pycache__/
+*.pyc
+*.fd
+*.rom
+*.bin
+*.bundle
+*.log
+*.LOG
+hardware-results/raw/
+Lenovo-GKCN65WW-V4-USB-Test.zip
+!source/tests/GKCN65WW-warning-fixture.bin

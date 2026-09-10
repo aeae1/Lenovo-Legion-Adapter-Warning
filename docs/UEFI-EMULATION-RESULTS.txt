@@ -1,0 +1,270 @@
+BdsDxe: loading Boot0001 "UEFI QEMU HARDDISK QM00001 " from PciRoot(0x0)/Pci(0x1F,0x2)/Sata(0x0,0xFFFF,0x0)
+BdsDxe: failed to load Boot0001 "UEFI QEMU HARDDISK QM00001 " from PciRoot(0x0)/Pci(0x1F,0x2)/Sata(0x0,0xFFFF,0x0): Load Error
+BdsDxe: loading Boot0002 "EFI Internal Shell" from Fv(7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1)/FvFile(7C04A583-9E3E-4F1C-AD65-E05268D0B4D1)
+BdsDxe: starting Boot0002 "EFI Internal Shell" from Fv(7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1)/FvFile(7C04A583-9E3E-4F1C-AD65-E05268D0B4D1)
+UEFI Interactive Shell v2.2
+EDK II
+UEFI v2.70 (Ubuntu distribution of EDK II, 0x00010000)
+Mapping table
+      FS0: Alias(s):F0a65535a:;BLK0:
+          PciRoot(0x0)/Pci(0x1F,0x2)/Sata(0x0,0xFFFF,0x0)
+Press ESC in 5 seconds to skip startup.nsh or any other key to continue.Press ESC in 4 seconds to skip startup.nsh or any other key to continue.Press ESC in 3 seconds to skip startup.nsh or any other key to continue.Press ESC in 2 seconds to skip startup.nsh or any other key to continue.Press ESC in 1 seconds to skip startup.nsh or any other key to continue.
+INSPECT_WITHOUT_INSTALL
+No options found.
+Review the current list above. Remove old Lenovo V2/V3/V4 test entries first.
+After the manual test succeeds, run: install-driver.nsh INSTALL
+INSTALL_TEST
+No options found.
+Target = 0000.
+bcfg: Add Driver0000 as 0
+Option: 00. Variable: Driver0000 
+  Desc    - Lenovo USB-C Warning Patch v4 TEST
+  DevPath - PciRoot(0x0)/Pci(0x1F,0x2)/Sata(0x0,0xFFFF,0x0)/\LenovoWarning-v4-Driver.efi
+  Optional- N
+Verify one V4 TEST entry exists and no command above reported an error.
+The script does not reboot. Follow WALKTHROUGH.md for the next boot.
+REMOVE_TEST_VM_ENTRY_ONLY
+No options found.
+PASS read original fixture
+PASS register inert module
+BEGIN_LENOVO_V4_20260910
+mode=GUEST_DIAGNOSTIC
+result=READY_OR_PATCHED
+clock_status=0x0000000000000000
+year=0x00000000000007EA
+month=0x0000000000000009
+day=0x000000000000000A
+hour=0x0000000000000004
+minute=0x0000000000000014
+second=0x0000000000000031
+status=0x0000000000000000
+module_handles=0x0000000000000001
+text_crc32=0x00000000ED5F56DD
+target=0x000000000DFA1030
+image_base=0x000000000DFA0000
+image_size=0x0000000000005B40
+trigger_at_entry=0x800000000000000E
+trigger_before_patch=0x8000000000000006
+candidate_ready=1
+patched=0
+verified=0
+clear_attempted=0
+cleared_ro=0
+restored_ro=0
+rollback=0
+memory_type=0x0000000000000003
+attribute_protocol=0
+attribute_query_status=0x800000000000000E
+attributes_before=0x0000000000000000
+clear_status=0x8000000000000006
+attributes_after_clear=0x0000000000000000
+restore_status=0x8000000000000006
+attributes_after_restore=0x0000000000000000
+PAGE_BEFORE
+cr0=0x0000000080010033
+cr3=0x000000000F801000
+cr4=0x0000000000000668
+page_valid=1
+page_rw=1
+page_user=0
+page_nx=0
+page_size=0x0000000000200000
+physical=0x000000000DFA1030
+page_entry=0x000000000F802023
+page_entry=0x000000000F803023
+page_entry=0x000000000DE000E3
+PAGE_AFTER
+cr0=0x0000000000000000
+cr3=0x0000000000000000
+cr4=0x0000000000000000
+page_valid=0
+page_rw=0
+page_user=0
+page_nx=0
+page_size=0x0000000000000000
+physical=0x0000000000000000
+END_LENOVO_V4_20260910
+
+PASS read-only identity and page walk
+BEGIN_LENOVO_V4_20260910
+mode=GUEST_WRITABLE
+result=READY_OR_PATCHED
+clock_status=0x0000000000000000
+year=0x00000000000007EA
+month=0x0000000000000009
+day=0x000000000000000A
+hour=0x0000000000000004
+minute=0x0000000000000014
+second=0x0000000000000031
+status=0x0000000000000000
+module_handles=0x0000000000000001
+text_crc32=0x00000000ED5F56DD
+target=0x000000000DFA1030
+image_base=0x000000000DFA0000
+image_size=0x0000000000005B40
+trigger_at_entry=0x800000000000000E
+trigger_before_patch=0x800000000000000E
+candidate_ready=1
+patched=1
+verified=1
+clear_attempted=0
+cleared_ro=0
+restored_ro=0
+rollback=0
+memory_type=0x0000000000000003
+attribute_protocol=0
+attribute_query_status=0x800000000000000E
+attributes_before=0x0000000000000000
+clear_status=0x8000000000000006
+attributes_after_clear=0x0000000000000000
+restore_status=0x8000000000000006
+attributes_after_restore=0x0000000000000000
+PAGE_BEFORE
+cr0=0x0000000080010033
+cr3=0x000000000F801000
+cr4=0x0000000000000668
+page_valid=1
+page_rw=1
+page_user=0
+page_nx=0
+page_size=0x0000000000200000
+physical=0x000000000DFA1030
+page_entry=0x000000000F802023
+page_entry=0x000000000F803023
+page_entry=0x000000000DE000E3
+PAGE_AFTER
+cr0=0x0000000080010033
+cr3=0x000000000F801000
+cr4=0x0000000000000668
+page_valid=1
+page_rw=1
+page_user=0
+page_nx=0
+page_size=0x0000000000200000
+physical=0x000000000DFA1030
+page_entry=0x000000000F802023
+page_entry=0x000000000F803023
+page_entry=0x000000000DE000E3
+END_LENOVO_V4_20260910
+
+PASS writable one-byte patch
+SKIP native RO transition: this OVMF build has no Memory Attribute Protocol.
+PASS load shipping driver as PE32+
+PASS shipping driver patches and returns success
+PASS install marker trigger
+BEGIN_LENOVO_V4_20260910
+mode=GUEST_TOO_LATE
+result=WARNING_TRIGGER_ALREADY_PRESENT
+clock_status=0x0000000000000000
+year=0x00000000000007EA
+month=0x0000000000000009
+day=0x000000000000000A
+hour=0x0000000000000004
+minute=0x0000000000000014
+second=0x0000000000000032
+status=0x8000000000000015
+module_handles=0x0000000000000001
+text_crc32=0x00000000ED5F56DD
+target=0x000000000DFA1030
+image_base=0x000000000DFA0000
+image_size=0x0000000000005B40
+trigger_at_entry=0x0000000000000000
+trigger_before_patch=0x0000000000000000
+candidate_ready=1
+patched=0
+verified=0
+clear_attempted=0
+cleared_ro=0
+restored_ro=0
+rollback=0
+memory_type=0x0000000000000003
+attribute_protocol=0
+attribute_query_status=0x800000000000000E
+attributes_before=0x0000000000000000
+clear_status=0x8000000000000006
+attributes_after_clear=0x0000000000000000
+restore_status=0x8000000000000006
+attributes_after_restore=0x0000000000000000
+PAGE_BEFORE
+cr0=0x0000000080010033
+cr3=0x000000000F801000
+cr4=0x0000000000000668
+page_valid=1
+page_rw=1
+page_user=0
+page_nx=0
+page_size=0x0000000000200000
+physical=0x000000000DFA1030
+page_entry=0x000000000F802023
+page_entry=0x000000000F803023
+page_entry=0x000000000DE000E3
+PAGE_AFTER
+cr0=0x0000000000000000
+cr3=0x0000000000000000
+cr4=0x0000000000000000
+page_valid=0
+page_rw=0
+page_user=0
+page_nx=0
+page_size=0x0000000000000000
+physical=0x0000000000000000
+END_LENOVO_V4_20260910
+
+PASS late trigger prevents write
+BEGIN_LENOVO_V4_20260910
+mode=GUEST_MISMATCH
+result=IDENTITY_MISMATCH
+clock_status=0x0000000000000000
+year=0x00000000000007EA
+month=0x0000000000000009
+day=0x000000000000000A
+hour=0x0000000000000004
+minute=0x0000000000000014
+second=0x0000000000000032
+status=0x8000000000000015
+module_handles=0x0000000000000001
+text_crc32=0x0000000083237F22
+target=0x0000000000000000
+image_base=0x000000000DFA0000
+image_size=0x0000000000005B40
+trigger_at_entry=0x0000000000000000
+trigger_before_patch=0x8000000000000006
+candidate_ready=0
+patched=0
+verified=0
+clear_attempted=0
+cleared_ro=0
+restored_ro=0
+rollback=0
+memory_type=0x0000000000000000
+attribute_protocol=0
+attribute_query_status=0x8000000000000006
+attributes_before=0x0000000000000000
+clear_status=0x8000000000000006
+attributes_after_clear=0x0000000000000000
+restore_status=0x8000000000000006
+attributes_after_restore=0x0000000000000000
+PAGE_BEFORE
+cr0=0x0000000000000000
+cr3=0x0000000000000000
+cr4=0x0000000000000000
+page_valid=0
+page_rw=0
+page_user=0
+page_nx=0
+page_size=0x0000000000000000
+physical=0x0000000000000000
+PAGE_AFTER
+cr0=0x0000000000000000
+cr3=0x0000000000000000
+cr4=0x0000000000000000
+page_valid=0
+page_rw=0
+page_user=0
+page_nx=0
+page_size=0x0000000000000000
+physical=0x0000000000000000
+END_LENOVO_V4_20260910
+
+PASS whole-text mismatch prevents write
+GUEST_FAILURES=0x0000000000000000

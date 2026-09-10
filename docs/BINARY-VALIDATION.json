@@ -1,0 +1,29 @@
+{
+  "LenovoWarning-v4-Diagnostic.efi": {
+    "bytes": 15872,
+    "sha256": "5bdea94cf293f5f135f869ff34efbd7c2c921a2254d9246dd452d01c5aaf1713",
+    "subsystem": 10,
+    "unsigned": true,
+    "imports": 0,
+    "relocations": true,
+    "forbidden_control_or_io_writes": []
+  },
+  "LenovoWarning-v4-Driver.efi": {
+    "bytes": 15872,
+    "sha256": "665d32265ce91946e58f9910f366db29682970d68ba4bcba7b749104c4382898",
+    "subsystem": 11,
+    "unsigned": true,
+    "imports": 0,
+    "relocations": true,
+    "forbidden_control_or_io_writes": []
+  },
+  "LenovoWarning-v4-Manual.efi": {
+    "bytes": 16896,
+    "sha256": "54afa1d2dda25dcf9d355345640cf0c5773363920bd44770d9d70f6233dfa019",
+    "subsystem": 10,
+    "unsigned": true,
+    "imports": 0,
+    "relocations": true,
+    "forbidden_control_or_io_writes": []
+  }
+}

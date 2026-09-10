@@ -1,0 +1,34 @@
+PASS diagnostic does not write
+PASS writable patch changes one byte
+PASS no target
+PASS duplicate module handles
+PASS wrong firmware GUID
+PASS malformed device path
+PASS GUID unavailable
+PASS wrong callback bytes
+PASS changed code outside signature
+PASS invalid PE offset
+PASS undersized image
+PASS already patched or older helper
+PASS late automatic driver
+PASS manual mechanics permitted late
+PASS unknown trigger state
+PASS RO without protocol
+PASS failed query on writable page
+PASS failed query on RO page
+PASS RO clear write restore
+PASS missing restoration API
+PASS clear fails then restore
+PASS clear success without writable mapping
+PASS query fails after clear
+PASS restore failure rolls byte back only while writable
+PASS restore query failure never writes protected byte
+PASS protocol claims RO but mapping remains writable
+PASS byte readback fails
+PASS non-executable target
+PASS unsupported protection keys
+PASS five-level page walk
+PASS 2MiB page
+PASS 1GiB page
+PASS nonpresent target page
+TOTAL 33 host fault-injection cases passed

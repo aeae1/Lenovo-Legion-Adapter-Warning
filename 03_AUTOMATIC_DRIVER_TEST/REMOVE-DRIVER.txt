@@ -1,0 +1,18 @@
+REMOVE THE TEST ENTRY
+
+1. With Secure Boot off, F12-boot this USB to the UEFI Shell.
+2. Run: bcfg driver dump -v
+3. Find the exact description: Lenovo USB-C Warning Patch v4 TEST
+4. Note its CURRENT list position (the Option number, not the Driver#### value).
+5. Run: bcfg driver rm <that-current-position>
+6. Run: bcfg driver dump -v
+7. Confirm the V4 TEST entry is gone. Preserve every unrelated entry.
+
+Never blindly remove position 0. The list position can change.
+Remove any earlier V2/V3 test entry the same way, by its exact description.
+If the entry is already gone, there is nothing to remove.
+
+If startup hangs: fully power off, unplug this USB, and boot without it.
+The helper is stored on this USB. Its callback change lasts only that boot.
+The unused DriverOrder entry may remain until you remove it with the Shell.
+Re-enable Secure Boot after removing the unsigned test driver if ending testing.
